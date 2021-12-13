@@ -1,6 +1,8 @@
 # eeeeeSpider
 This is my CS 20 final assesment. 
 
+![py_lint(3.10)](https://github.com/eei3/eeeeeSpider/actions/workflows/pylint.yml/badge.svg)
+
 How to use:
 1. Open program
 2. Run to your hearts content! There are no external dependancies that you will have to manually install
