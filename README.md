@@ -1,7 +1,7 @@
 # eeeeeSpider
 This is my CS 20 final assesment. 
 
-![py_lint(3.10)](https://github.com/eei3/eeeeeSpider/workflows/pylint.yml/badge.svg)
+![py_lint(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/pylint.yml/badge.svg)
 
 How to use:
 1. Open program
