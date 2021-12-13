@@ -15,7 +15,10 @@ class Main:
         self.configs = {
             "threads" : 8,
             "outside_sites" : False,
-            "max_links" : [False, 0]
+            "max_links" : [False, 0],
+            "warnings" : True,
+            "compress" : False,
+            "create-html" : False
         }
         if not os.path.exists(directory):
             os.mkdir(directory)
@@ -48,7 +51,7 @@ class Main:
         # ***************************************************************************************\
         def export_to_csv():
             import csv
-            with open('crawled.csv', 'x', newline='') as csvfile:
+            with open(self.directory + '/crawled.csv', 'x', newline='') as csvfile:
                 with open("crawled.txt", "r") as file:
                     url_list = file.read()
                     url_list = url_list.split("\n")
@@ -92,7 +95,7 @@ class Main:
     #  Main function (Gets user input)
     # ***************************************************************************************\
     def main(self):
-        print("Please input your choice.\nChoices\n-------------------\n1.Start crawling\n2.Change Settings\n3.Exit")
+        print("Please input your choice.\nChoices\n-------------------\n1.Start crawling\n2.Change Settings\n3.Exit\n4.Help")
         choice = input("")
         choice = choice.lower()
         # Starting the crawler
@@ -105,6 +108,9 @@ class Main:
         # Exit
         elif choice == "3" or choice == "exit":
             quit()
+        
+        elif choice == "4" or choice == "help":
+            print("Help is on the way!"
         else:
             pass
     # /***************************************************************************************
