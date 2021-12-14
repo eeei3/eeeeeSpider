@@ -22,8 +22,8 @@ Options explanations:
 
 TROUBLESHOOTING:
 1. Why are there mysterious symbols and letters?
-   This is probably because one of the sites your crawled had some funny characters in it's link. Try changing the UTF encoding.
+- This is probably because one of the sites your crawled had some funny characters in it's link. Try changing the UTF encoding.
 2. My disk is getting filled up with your project!
-   Try setting a limit on the amount of links crawled.
+- Try setting a limit on the amount of links crawled.
 3. How can I manipulate the src?
-   You need a basic understanding of Python. Check out the graph for how the program runs.
+- You need a basic understanding of Python. Check out the graph for how the program runs.
