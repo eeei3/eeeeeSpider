@@ -27,17 +27,21 @@ class SpiderMain:
     def create_threads(self):
         try:
             for _ in range(self.THREADS):
-                t = threading.Thread(target=self.work)
-                t.daemon = True
-                t.start()
+                self.t = threading.Thread(target=self.work)
+                self.t.daemon = True
+                self.t.start()
         except Exception as e:
             print(e)
-    
+
     def work(self):
         while True:
             url = self.queue.get()
-            Spider.crawl_page(threading.current_thread().name, url)
-            self.queue.task_done()
+            print("Here!")
+            if Spider.crawl_page(threading.current_thread().name, url) == 2:
+                for _ in range(self.THREADS):
+                    self.t.do_run = False
+            else:
+                self.queue.task_done()
 
     # Add links to queue and prepare them for crawling
     def create_jobs(self):

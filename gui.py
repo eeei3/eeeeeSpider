@@ -3,6 +3,7 @@ from os import system
 import json
 from main import SpiderMain
 from crawlergui import CrawlerGUI
+from htmlcreator import HTMLCreator
 
 
 class Main:
@@ -13,9 +14,20 @@ class Main:
         self.crawled = os.path.join(directory, "crawled.txt")
         self.settingsdir = os.path.join(directory, "configs.json")
         self.configs = {
-            "threads" : 8,
-            "outside_sites" : False,
-            "max_links" : [False, 0]
+            "threads": 8,
+            "outside_sites": False,
+            "max_links": [False, 0],
+            "warnings": True,
+            "compress": False,
+            "classnames": "",
+            "linkortext": "link",
+            "headers": {
+                "headers" : False,
+                "headers1": False,
+                "headers2" : False,
+                "headers3": False,
+                "headers4": False
+            }
         }
         if not os.path.exists(directory):
             os.mkdir(directory)
@@ -32,6 +44,14 @@ class Main:
                 f.close()
             with open(self.settingsdir, 'r') as f:
                 self.configs = json.loads(f.read())
+            try:
+                os.remove(directory + "/crawled.csv")
+            except Exception as e:
+                pass
+            try:
+                os.remove(directory + "/results.html")
+            except Exception as e:
+                print(e)
 
     # /***************************************************************************************
     #  Function that clears the window
@@ -39,23 +59,37 @@ class Main:
     @staticmethod
     def clear_screen():
         _ = system('cls')
+        
     # /***************************************************************************************
     #  Function that gives the user options at the end of the program
     # ***************************************************************************************\
     def finish(self):
+    
         # /***************************************************************************************
         #  Function that exports the file into a CSV file for spreadsheet work
         # ***************************************************************************************\
         def export_to_csv():
             import csv
-            with open('crawled.csv', 'x', newline='') as csvfile:
-                with open("crawled.txt", "r") as file:
+            with open(self.directory + '/crawled.csv', 'x', newline='') as csvfile:
+                with open(self.directory + "/crawled.txt", "r") as file:
                     url_list = file.read()
                     url_list = url_list.split("\n")
                     csvwriter = csv.writer(csvfile, delimiter=' ', quotechar = '|', quoting=csv.QUOTE_MINIMAL)
                     for url in url_list:
                         csvwriter.writerow(url)
             return
+        
+        # /***************************************************************************************
+        #  Function that exports the file into a HTML file for website use
+        # ***************************************************************************************\
+        def export_to_html(url_list):
+            HTML = HTMLCreator(url_list, self.directory + "/results.html",
+                               self.configs["linkortext"], self.configs["classnames"])
+            # self, headers, classname, linkortext
+            print(self.configs["headers"])
+            HTML.html_generator(self.configs["headers"], self.configs["classnames"])
+            return 0
+            
         main.clear_screen()
         print("The crawler has finished")
         print("You can either view the URL's in the CLI, export the file to a CSV format")
@@ -69,7 +103,15 @@ class Main:
             viewer = CrawlerGUI()
             viewer.main(url_list)
         elif choice == "E" or choice == "export" or choice == "e":
-            export_to_csv()
+            with open(self.directory + "/crawled.txt", "r") as file:
+                url_list = file.read()
+                url_list = url_list.split("\n")
+            print("Export to CSV or to HTML?")
+            choice = input("")
+            if (choice).lower() == "csv":
+                export_to_csv()
+            elif (choice).lower() == "html":
+                export_to_html(url_list)
         elif choice == "Q" or choice == "quit" or choice == "q":
             return
         else:
@@ -80,6 +122,8 @@ class Main:
     # ***************************************************************************************\
     def start(self):
         url = input("Url to crawl:")
+        print(self.directory)
+        print(self.configs)
         spidermain = SpiderMain(
             self.directory, url,
             self.configs["threads"],
@@ -92,7 +136,7 @@ class Main:
     #  Main function (Gets user input)
     # ***************************************************************************************\
     def main(self):
-        print("Please input your choice.\nChoices\n-------------------\n1.Start crawling\n2.Change Settings\n3.Exit")
+        print("Please input your choice.\nChoices\n-------------------\n1.Start crawling\n2.Change Settings\n3.Exit\n4.Help")
         choice = input("")
         choice = choice.lower()
         # Starting the crawler
@@ -105,6 +149,9 @@ class Main:
         # Exit
         elif choice == "3" or choice == "exit":
             quit()
+        
+        elif choice == "4" or choice == "help":
+            print("Help is on the way!")
         else:
             pass
     # /***************************************************************************************
@@ -113,6 +160,7 @@ class Main:
     def settings(self):
         main.clear_screen()
         print("Which element do you want to change?\n1.Threads\n2.Crawl outside sides\n3.Max amount to crawl")
+        print("\n4.HTML configs\n5.Storage Warnings\n6.Compression")
         setting_to_change = input("Type in the number\n")
         # Changing number of threads used
         if setting_to_change == "1":
@@ -142,6 +190,41 @@ class Main:
                 self.configs["max_links"][1] = temp
             elif temp == "no":
                 self.configs["max_links"][0] = False
+        elif setting_to_change == "4":
+            print("What config do you want to change?")
+            temp = input("\n1. Headers\n2.Link or text\n3.Give text a class?\n")
+            if temp == "1":
+                temp1 = input("Which header do you want to change?\n1\t2\t3\t4\n")
+                if temp1 == "1":
+                    self.configs["headers"]["headers1"] = bool((~self.configs["headers"]["headers1"]) + 2)
+                    print("Config changed")
+                elif temp1 == "2":
+                    self.configs["headers"]["headers2"] = bool((~self.configs["headers"]["headers2"]) + 2)
+                    print("Config changed")
+                elif temp1 == "3":
+                    self.configs["headers"]["headers3"] = bool((~self.configs["headers"]["headers3"]) + 2)
+                    print("Config changed")
+                elif temp1 == "4":
+                    self.configs["headers"]["headers4"] = bool((~self.configs["headers"]["headers4"]) + 2)
+                    print("Config changed")
+                else:
+                    print("I did not understand that.")
+            elif temp == "2":
+                print("Enter 'True' or 'False'. Enter e to not change anything. Current config:", self.configs["linkortext"])
+                temp1 = input()
+                if temp1.lower() == "e":
+                    print("No changes made")
+                elif temp1.lower() == "true":
+                    self.configs["linkortext"] = "link"
+                elif temp1.lower() == "false":
+                    self.configs["linkortext"] = "text"
+                else:
+                    print("Bad input.")
+
+            elif temp == "3":
+                self.configs["classnames"] = input("Enter your desired class name. Leave blank if you don't want any")
+            else:
+                print("I did not understand that.")
         # If the user gives bad input
         else:
             main.clear_screen()

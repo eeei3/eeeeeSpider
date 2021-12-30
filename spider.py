@@ -18,8 +18,6 @@ class Spider:
     external = False
     limit_counter = 0
 
-    
-
     def __init__(self, project_name, base_url, domain_name, spiderlimits, limitnum, external, limit_counter):
         Spider.project_name = project_name
         Spider.base_url = base_url
@@ -42,17 +40,31 @@ class Spider:
     # Updates user display, fills queue and updates files
     @staticmethod
     def crawl_page(thread_name, page_url):
-        if page_url not in Spider.crawled:
+        if page_url not in Spider.crawled and (Spider.limitnum > Spider.limit_counter):
             print(thread_name + ' now crawling ' + page_url)
             print('Queue ' + str(len(Spider.queue)) + ' | Crawled  ' + str(len(Spider.crawled)))
             if not Spider.external:
-                Spider.add_links_to_queue(Spider.gather_links(page_url))
+                links = Spider.gather_links(page_url)
+                if links == 2:
+                    return 2
+                else:
+                    Spider.add_links_to_queue(links)
+                    Spider.queue.remove(page_url)
+                    Spider.crawled.add(page_url)
+                    Spider.update_files()
+                    print(page_url + " Has been crawled")
             else:
-                Spider.add_links_to_queue_no_check(Spider.gather_links(page_url))
-            Spider.queue.remove(page_url)
-            Spider.crawled.add(page_url)
-            Spider.update_files()
-            print(page_url + " Has been crawled")
+                links = Spider.gather_links(page_url)
+                if links == 2:
+                    print("We have reached a limit!")
+                    return 2
+                else:
+                    print("We have not reached a limit!")
+                    Spider.add_links_to_queue_no_check(links)
+                    Spider.queue.remove(page_url)
+                    Spider.crawled.add(page_url)
+                    Spider.update_files()
+                    print(page_url + " Has been crawled")
 
     # Converts raw response data into readable information and checks for proper html formatting
     @staticmethod
@@ -60,7 +72,8 @@ class Spider:
         html_string = ''
         try:
             response = urlopen(page_url)
-            if Spider.spiderlimits or (Spider.limitnum > Spider.limit_counter):
+            print(Spider.spiderlimits)
+            if (not Spider.spiderlimits) or (Spider.limitnum > Spider.limit_counter):
                 if 'text/html' in response.getheader('Content-Type'):
                     html_bytes = response.read()
                     html_string = html_bytes.decode("utf-8")
@@ -68,10 +81,14 @@ class Spider:
                 finder.feed(html_string)
             else:
                 Spider.limit_reached()
+                return set()
             Spider.limit_counter += 1
         except Exception as e:
-            print(str(e) + "2")
-            return set()
+            if "Set changed size during iteration" in str(e):
+                return 2
+            else:
+                print(str(e))
+                return set()
         return finder.page_links()
 
     # Saves queue data to project files
@@ -85,7 +102,7 @@ class Spider:
                     continue
                 Spider.queue.add(url)
         except Exception as e:
-            print(e)
+            print(str(e) + "2")
 
     # Saves queue data to project files without checking domain
     @staticmethod
@@ -105,8 +122,7 @@ class Spider:
     
     @staticmethod
     def limit_reached():
-        for url in Spider.queue:
+        """for url in Spider.queue:
             Spider.queue.remove(url)
-        return
-    
-    
+            exit()"""
+        raise "LimitReached"
