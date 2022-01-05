@@ -91,7 +91,11 @@ class Main:
             return 0
             
         main.clear_screen()
-        print("The crawler has finished")
+        print("""
+/***************************************************************************
+Crawler has finished!
+***************************************************************************\\
+    """)
         print("You can either view the URL's in the CLI, export the file to a CSV format")
         print("or exit the program right now")
         print("V to view, E to export and Q to quit")
@@ -129,7 +133,8 @@ class Main:
             self.configs["threads"],
             self.configs["outside_sites"],
             self.configs["max_links"][0],
-            self.configs["max_links"][1], 0)
+            self.configs["max_links"][1], 0,
+            self.configs["warnings])
         spidermain.kick_start()
 
     # /***************************************************************************************
@@ -190,9 +195,11 @@ class Main:
                 self.configs["max_links"][1] = temp
             elif temp == "no":
                 self.configs["max_links"][0] = False
+        # User wishes to change HTML settings
         elif setting_to_change == "4":
             print("What config do you want to change?")
             temp = input("\n1. Headers\n2.Link or text\n3.Give text a class?\n")
+            # Changing the headers
             if temp == "1":
                 temp1 = input("Which header do you want to change?\n1\t2\t3\t4\n")
                 if temp1 == "1":
@@ -209,20 +216,33 @@ class Main:
                     print("Config changed")
                 else:
                     print("I did not understand that.")
+            # Choosing IF the user wants the urls to be entered in as links or as plain text
             elif temp == "2":
-                print("Enter 'True' or 'False'. Enter e to not change anything. Current config:", self.configs["linkortext"])
+                print("Enter 'link' or 'text'. Enter e to not change anything. Current config:", self.configs["linkortext"])
                 temp1 = input()
                 if temp1.lower() == "e":
                     print("No changes made")
-                elif temp1.lower() == "true":
+                elif temp1.lower() == "link":
                     self.configs["linkortext"] = "link"
-                elif temp1.lower() == "false":
+                elif temp1.lower() == "text":
                     self.configs["linkortext"] = "text"
                 else:
                     print("Bad input.")
-
+            # Changing class name for HTML file
             elif temp == "3":
                 self.configs["classnames"] = input("Enter your desired class name. Leave blank if you don't want any")
+            else:
+                print("I did not understand that.")
+        # User wants storage warnings
+        elif setting_to_change == "5":
+            print("Would you like to receive warnings if the site you are crawling is very large?")
+            temp1 = input("Please input either yes or no")
+            if temp1.lower() == "yes":
+                self.configs["warnings"] = True
+                print("Setting changed")
+            elif temp1.lower() == "no":
+                self.configs["warnings"] = False
+                print("Setting changed")
             else:
                 print("I did not understand that.")
         # If the user gives bad input
@@ -237,6 +257,6 @@ class Main:
         main.clear_screen()
         self.main()
 
-
+# Starting the application
 main = Main("results")
 main.main()

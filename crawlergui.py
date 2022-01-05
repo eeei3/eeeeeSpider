@@ -14,8 +14,10 @@ class CrawlerGUI:
     @staticmethod
     def main(links):
         y_height = 0
+        
         for link in links:
             y_height = y_height + 1
+            
         root = Tk()
 
         vertical = Scrollbar(root, orient='vertical')
@@ -31,7 +33,6 @@ class CrawlerGUI:
         for link in links:
             text.insert(END, link + "\n")
 
-        print(y_height)
         root.minsize(500, y_height)
         root.title("Link Viewer")
         root.mainloop()

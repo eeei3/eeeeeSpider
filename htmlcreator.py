@@ -30,9 +30,10 @@ class HTMLCreator:
         htmlendtags = "</body>\n</html>"
         # /***************************************************************************************
         #  Checking if the user has provided any class names
-        #  CASE: No class name
+        #  CASE: No class name defined
         # ***************************************************************************************\
         if (self.classnames == "") or (self.classnames == " "):
+            # Does the user want the url in plain text?
             if self.linkortext == "text":
                 for link in self.links:
                     if link == "\n":
@@ -48,6 +49,7 @@ class HTMLCreator:
                         html = html + "<h4>" + link + "</h4>" + "\n"
                     else:
                         html = html + "<p>" + link + "</p>" + "\n"
+            # Does the user want the url as a hyperlink?
             elif self.linkortext == "link":
                 for link in self.links:
                     if link == "\n":
@@ -63,6 +65,7 @@ class HTMLCreator:
                         html = html + "<h4>" + "<a> href=\"" + link + "\"</a>" + "</h4>" + "\n"
                     else:
                         html = html + "<p>" + "<a> href=\"" + link + "\"</a>" + "</p>" + "\n"
+            # The user does not know what they are doing.
             else:
                 print("How did we get here?")
                 raise "Unexpected/InvalidConfig"
@@ -71,6 +74,7 @@ class HTMLCreator:
         #  CASE: Class name present
         # ***************************************************************************************\
         else:
+            # Does the user want the url in plain text?
             if self.linkortext == "text":
                 for link in self.links:
                     if link == "\n":
@@ -86,6 +90,7 @@ class HTMLCreator:
                         html = html + "<h4 class=" + self.classnames + ">" + link + "</h4>" + "\n"
                     else:
                         html = html + "<p class=" + self.classnames + ">" + link + "</p>" + "\n"
+            # Does the user want the url as a hyperlink?
             elif self.linkortext == "link":
                 for link in self.links:
                     if link == "\n":
@@ -106,8 +111,12 @@ class HTMLCreator:
                     else:
                         html = html + "<p class=" + self.classnames + ">" + "<a> href=\"" + link + "\"</a>" + "</p>" \
                                + "\n"
+            # The user does not know what they are doing.
             else:
                 print("How did we get here?")
                 raise "Unexpected/InvalidConfig"
+                
+        # Tying up loose ends
         html = html + htmlendtags
+        # Saving the HTML
         self.finished_creating(html)

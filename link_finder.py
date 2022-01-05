@@ -15,7 +15,9 @@ class LinkFinder(HTMLParser):
                 for (attribute, value) in attrs:
                     if attribute == 'href':
                         url = parse.urljoin(self.base_url, value)
+                        
                         self.links.add(url)
+                        
         except Exception as e:
             print(e)
 

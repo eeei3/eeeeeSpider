@@ -40,19 +40,17 @@ class Spider:
     # Updates user display, fills queue and updates files
     @staticmethod
     def crawl_page(thread_name, page_url):
-        if page_url not in Spider.crawled and (Spider.limitnum > Spider.limit_counter):
+        if page_url not in Spider.crawled:
             print(thread_name + ' now crawling ' + page_url)
             print('Queue ' + str(len(Spider.queue)) + ' | Crawled  ' + str(len(Spider.crawled)))
+            # Checking if the user wants to crawl sites not related to original domain
             if not Spider.external:
                 links = Spider.gather_links(page_url)
-                if links == 2:
-                    return 2
-                else:
-                    Spider.add_links_to_queue(links)
-                    Spider.queue.remove(page_url)
-                    Spider.crawled.add(page_url)
-                    Spider.update_files()
-                    print(page_url + " Has been crawled")
+                Spider.add_links_to_queue(links)
+                Spider.queue.remove(page_url)
+                Spider.crawled.add(page_url)
+                Spider.update_files()
+                print(page_url + " Has been crawled")
             else:
                 links = Spider.gather_links(page_url)
                 if links == 2:
@@ -80,15 +78,13 @@ class Spider:
                 finder = LinkFinder(Spider.base_url, page_url)
                 finder.feed(html_string)
             else:
+                print("Error")
                 Spider.limit_reached()
                 return set()
-            Spider.limit_counter += 1
+            #Spider.limit_counter += 1
         except Exception as e:
-            if "Set changed size during iteration" in str(e):
-                return 2
-            else:
-                print(str(e))
-                return set()
+            print(str(e))
+            return set()
         return finder.page_links()
 
     # Saves queue data to project files
