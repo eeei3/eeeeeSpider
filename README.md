@@ -9,14 +9,28 @@ How to use:
 2. Run to your hearts content! There are no external dependancies that you will have to manually install
 
 Options explanations:
+--------------------------------------------------[Main Crawler Features]--------------------------------------------------
 1. Threads [Num of threads]
 - This will be how many threads the spider will be allowed to access. It will not use any more than you have allowed.
 - The more you use, the faster it will be, but the more resource intensive. Set to 8 threads by default.
 2. External sites [True or False]
 - This will give you the option to crawl a external site. For example, lets say you wanted to crawl your site gamers.ru. But the lets say you had some YouTube and Twitter embeds. Well what would happen if you had this option enabled is that once the spider hits lets say YouTube, it will begin to crawl the actual YouTube site. Not very pretty. Keep this option disabled unless you have a really good reason.
 - Set to disabled by default.
-3. Max links [True or false, num of pages]
+3. Max links [True or False, num of pages]
 - This is what it sounds like. THe max amount of links the spider will crawl. Useful if you don't want to index a whole site or are limited by some metric. Disabled by default.
+4. Warnings [True or False]
+- This feature will pause the crawler once it has hit a certain number of sites. Enableing this will cause the crawler to pause and give the user
+  a choice with what to do.
+- Disableing this feature will cause the crawler to keep parsing.
+5. Compress [True or False]
+- This gives the user the option if they want the results to be compressed or not. This can be helpful, for when the crawler needs to parse a large site, to save storage space.
+------------------------------------------------------[HTML Features]------------------------------------------------------
+1. Classname [Name]
+- This gives the user the ability to assign the text a class for easier manipulation
+2. Linkortext [Link or Text]
+- Gives the user the ability to either choose the <a> tag or a text tag
+3. Headers [True or False]
+- Gives the user the ability to assign the text a header tag. h1-h4 are supported.
 
 
 
