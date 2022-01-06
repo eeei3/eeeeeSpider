@@ -5,6 +5,9 @@ This is my CS 20 final assesment.
 ![python-app(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/python-app.yml/badge.svg)
 ![codeql-analysis(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/codeql-analysis.yml/badge.svg)
 
+REQUIRMENTS:
+- Python 3.10
+
 How to use:
 1. Open program
 2. Run to your hearts content! There are no external dependancies that you will have to manually install
