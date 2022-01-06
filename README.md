@@ -8,8 +8,8 @@ How to use:
 1. Open program
 2. Run to your hearts content! There are no external dependancies that you will have to manually install
 
-Options explanations:
---------------------------------------------------[Main Crawler Features]--------------------------------------------------
+Options explanations:\n
+[Main Crawler Features]--------------------------------------------------
 1. Threads [Num of threads]
 - This will be how many threads the spider will be allowed to access. It will not use any more than you have allowed.
 - The more you use, the faster it will be, but the more resource intensive. Set to 8 threads by default.
@@ -23,8 +23,8 @@ Options explanations:
   a choice with what to do.
 - Disableing this feature will cause the crawler to keep parsing.
 5. Compress [True or False]
-- This gives the user the option if they want the results to be compressed or not. This can be helpful, for when the crawler needs to parse a large site, to save storage space.
-------------------------------------------------------[HTML Features]------------------------------------------------------
+- This gives the user the option if they want the results to be compressed or not. This can be helpful, for when the crawler needs to parse a large site, to save storage space.\n
+[HTML Features]------------------------------------------------------
 1. Classname [Name]
 - This gives the user the ability to assign the text a class for easier manipulation
 2. Linkortext [Link or Text]
