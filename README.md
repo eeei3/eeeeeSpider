@@ -3,6 +3,7 @@ This is my CS 20 final assesment.
 
 ![py_lint(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/pylint.yml/badge.svg)
 ![python-app(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/python-app.yml/badge.svg)
+![codeql-analysis(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/codeql-analysis.yml/badge.svg)
 
 How to use:
 1. Open program
