@@ -4,13 +4,12 @@ def get_domain_name(url):
     try:
         results = get_sub_domain_name(url).split('.')
         return str(results[-2]) + '.' + str(results[-1])
-    except:
+    except Exception as e:
         return ''
 
 
 def get_sub_domain_name(url):
     try:
         return urlparse(url).netloc
-    except:
+    except Exception as e:
         return ''
-

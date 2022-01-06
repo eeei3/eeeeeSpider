@@ -1,23 +1,22 @@
 from tkinter import *
-from tkinter.font import Font
 
 
 class CrawlerGUI:
 
     def __init__(self):
         return
-    
+
     # /***************************************************************************************
     #  Function that creates a gui using Tkinter. Then it creates a scrollbar object
     #  and the text element that is created gets populated with the links.
     # ***************************************************************************************\
-    @staticmethod
-    def main(links):
+
+    def main(self, links):
         y_height = 0
-        
+
         for link in links:
             y_height = y_height + 1
-            
+
         root = Tk()
 
         vertical = Scrollbar(root, orient='vertical')

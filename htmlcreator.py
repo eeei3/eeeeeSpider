@@ -8,7 +8,12 @@ class HTMLCreator:
         self.path = path
         self.linkortext = linkortext
         self.classnames = classnames
-        self.htmlstarttags = "<!DOCTYPE html>\n<html>\n<head>\n<title>Page Title</title>\n</head>\n<body>\n"
+        self.htmlstarttags = """<!DOCTYPE html>
+        <html>
+        <head>
+        <title>Page Title</title>
+        </head>
+        <body>\n"""
         with open(path, "x") as htmlfile:
             htmlfile.close()
 
@@ -21,7 +26,7 @@ class HTMLCreator:
         print("File saved!")
         print(self.path)
         return 0
-        
+
     # /***************************************************************************************
     #  Function that creates the HTML then dumps it
     # ***************************************************************************************\
@@ -32,7 +37,7 @@ class HTMLCreator:
         #  Checking if the user has provided any class names
         #  CASE: No class name defined
         # ***************************************************************************************\
-        if (self.classnames == "") or (self.classnames == " "):
+        if self.classnames in ('', ' '):
             # Does the user want the url in plain text?
             if self.linkortext == "text":
                 for link in self.links:
@@ -97,20 +102,21 @@ class HTMLCreator:
                         print("Empty line")
                         continue
                     if headers["headers1"]:
-                        html = html + "<h1 class=" + self.classnames + ">" + "<a> href=\"" + link + "\"</a>" + "</h1>" \
-                               + "\n"
+                        html = html + "<h1 class=" + self.classnames + ">" \
+                                    + "<a> href=\"" + link + "\"</a>" + "</h1>" \
+                                    + "\n"
                     elif headers["headers2"]:
-                        html = html + "<h2 class=" + self.classnames + ">" + "<a> href=\"" + link + "\"</a>" + "</h2>" \
-                               + "\n"
+                        html = html + "<h2 class=" + self.classnames + ">" + "<a> href=\"" \
+                                    + link + "\"</a>" + "</h2>" + "\n"
                     elif headers["headers3"]:
-                        html = html + "<h3 class=" + self.classnames + ">" + "<a> href=\"" + link + "\"</a>" + "</h3>" \
-                               + "\n"
+                        html = html + "<h3 class=" + self.classnames + ">" + "<a> href=\"" \
+                                    + link + "\"</a>" + "</h3>" + "\n"
                     elif headers["headers4"]:
-                        html = html + "<h4 class=" + self.classnames + ">" + "<a> href=\"" + link + "\"</a>" + "</h4>" \
-                               + "\n"
+                        html = html + "<h4 class=" + self.classnames + ">" + "<a> href=\"" \
+                                    + link + "\"</a>" + "</h4>" + "\n"
                     else:
-                        html = html + "<p class=" + self.classnames + ">" + "<a> href=\"" + link + "\"</a>" + "</p>" \
-                               + "\n"
+                        html = html + "<p class=" + self.classnames + ">" + "<a> href=\"" \
+                        + link + "\"</a>" + "</p>" + "\n"
             # The user does not know what they are doing.
             else:
                 print("How did we get here?")

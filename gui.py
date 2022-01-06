@@ -134,7 +134,7 @@ Crawler has finished!
             self.configs["outside_sites"],
             self.configs["max_links"][0],
             self.configs["max_links"][1], 0,
-            self.configs["warnings])
+            self.configs["warnings"])
         spidermain.kick_start()
 
     # /***************************************************************************************

@@ -21,7 +21,8 @@ class SpiderMain:
         self.CRAWLED_FILE = folder_name + '/crawled.txt'
         self.queue = Queue()
         self.limit_count = limit_count
-        self.warnings = warnings
+        self.WARNINGS = warnings
+        self.WARNING_TRIGGER = 99
         Spider(folder_name, base_link, self.DOMAIN_NAME, urlmax, maxnum, external, 0)
 
     # Function in charge of creating threads for the spider
@@ -44,21 +45,39 @@ class SpiderMain:
                 self.limit_count += 1
             except Exception as e:
                 print(e)
+                
+    # Warns the user
+    @staticmethod
+    def warning_activated():
+        temp = input("Please enter either 'continue' or 'stop'.\n")
+        if temp.lower() == "stop":
+            print("Crawling exiting...")
+            return 1
+        elif temp.lower() == "continue":
+            print("Resuming...")
+            return 0
+        else:
+            SpiderMain.warning_activated()
 
     # Add links to queue and prepare them for crawling
     def create_jobs(self):
+        stop_signal = False
         print("Creating Jobs")
         for link in file_to_set(self.QUEUE_FILE):
             # Checking if the crawler has hit the user defined limit
-            print("This is the limit count: ", self.limit_count)
-            print("This is the max: ", self.MAXNUM)
-            print("State of max: ", self.MAX)
-            if (self.limit_count != self.MAXNUM) or (self.MAX == False):
+            if (self.WARNING_TRIGGER == self.limit_count) and (self.WARNINGS == True):
+                print("THE CRAWLER HAS CRAWLED 100 URLs. ARE YOU SURE YOU WISH TO CONTINUE?")
+                print("CONTINUEING WILL LEAD TO LARGER FILE SIZES. IF YOU HAVE EXTERNAL SITES ENABLED,")
+                print("CONSIDER TURNING ON COMPRESSING.")
+                if SpiderMain.warning_activated() == 1:
+                    stop_signal = True
+                else:
+                    pass
+            if ((self.limit_count != self.MAXNUM) or (self.MAX == False)) and (stop_signal == False):
                 self.queue.put(link)
                 self.queue.join()
                 self.crawl()
             else:
-                print("Error")
                 pass
 
     # Function that gets queued links and calls create_jobs to prepare them
