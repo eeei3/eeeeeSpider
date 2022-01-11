@@ -13,6 +13,7 @@ class LinkFinder(HTMLParser):
         try:
             if tag == 'a':
                 for (attribute, value) in attrs:
+                    # Grabbing a potential link
                     if attribute == 'href':
                         url = parse.urljoin(self.base_url, value)
                         

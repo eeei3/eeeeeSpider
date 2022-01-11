@@ -18,7 +18,8 @@ class Spider:
     external = False
     limit_counter = 0
 
-    def __init__(self, project_name, base_url, domain_name, spiderlimits, limitnum, external, limit_counter):
+    def __init__(self, project_name, base_url, domain_name,
+                 spiderlimits, limitnum, external, limit_counter):
         Spider.project_name = project_name
         Spider.base_url = base_url
         Spider.domain_name = domain_name
@@ -31,7 +32,8 @@ class Spider:
         self.boot()
         self.crawl_page('First spider', Spider.base_url)
 
-    # Creates directory and files for project on first run and starts the spider
+    # Creates directory and files for project on first run
+    # and starts the spider
     @staticmethod
     def boot():
         Spider.queue = file_to_set(Spider.queue_file)
@@ -42,46 +44,34 @@ class Spider:
     def crawl_page(thread_name, page_url):
         if page_url not in Spider.crawled:
             print(thread_name + ' now crawling ' + page_url)
-            print('Queue ' + str(len(Spider.queue)) + ' | Crawled  ' + str(len(Spider.crawled)))
-            # Checking if the user wants to crawl sites not related to original domain
+            print('Queue ' + str(len(Spider.queue)) +
+                  ' | Crawled  ' + str(len(Spider.crawled)))
+            # Checking if the user wants to crawl sites
+            # not related to original domain
             if not Spider.external:
                 links = Spider.gather_links(page_url)
                 Spider.add_links_to_queue(links)
-                Spider.queue.remove(page_url)
-                Spider.crawled.add(page_url)
-                Spider.update_files()
-                print(page_url + " Has been crawled")
             else:
                 links = Spider.gather_links(page_url)
-                if links == 2:
-                    print("We have reached a limit!")
-                    return 2
-                else:
-                    print("We have not reached a limit!")
-                    Spider.add_links_to_queue_no_check(links)
-                    Spider.queue.remove(page_url)
-                    Spider.crawled.add(page_url)
-                    Spider.update_files()
-                    print(page_url + " Has been crawled")
+                Spider.add_links_to_queue_no_check(links)
 
-    # Converts raw response data into readable information and checks for proper html formatting
+            Spider.queue.remove(page_url)
+            Spider.crawled.add(page_url)
+            Spider.update_files()
+
+    # Converts raw response data into readable information
+    # and checks for proper html formatting
     @staticmethod
     def gather_links(page_url):
         html_string = ''
         try:
             response = urlopen(page_url)
             print(Spider.spiderlimits)
-            if (not Spider.spiderlimits) or (Spider.limitnum > Spider.limit_counter):
-                if 'text/html' in response.getheader('Content-Type'):
-                    html_bytes = response.read()
-                    html_string = html_bytes.decode("utf-8")
-                finder = LinkFinder(Spider.base_url, page_url)
-                finder.feed(html_string)
-            else:
-                print("Error")
-                Spider.limit_reached()
-                return set()
-            #Spider.limit_counter += 1
+            if 'text/html' in response.getheader('Content-Type'):
+                html_bytes = response.read()
+                html_string = html_bytes.decode("utf-8")
+            finder = LinkFinder(Spider.base_url, page_url)
+            finder.feed(html_string)
         except Exception as e:
             print(str(e))
             return set()
@@ -98,7 +88,8 @@ class Spider:
                     continue
                 Spider.queue.add(url)
         except Exception as e:
-            print(str(e) + "2")
+            print(str(e))
+            return
 
     # Saves queue data to project files without checking domain
     @staticmethod
@@ -109,16 +100,10 @@ class Spider:
                     continue
                 Spider.queue.add(url)
         except Exception as e:
-            print(str(e) + "1")
+            print(str(e))
+            return
 
     @staticmethod
     def update_files():
         set_to_file(Spider.queue, Spider.queue_file)
         set_to_file(Spider.crawled, Spider.crawled_file)
-    
-    @staticmethod
-    def limit_reached():
-        """for url in Spider.queue:
-            Spider.queue.remove(url)
-            exit()"""
-        raise "LimitReached"

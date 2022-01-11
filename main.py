@@ -9,7 +9,8 @@ class SpiderMain:
     # For counting how many pages have been crawled
     limit_count = 0
 
-    def __init__(self, folder_name, base_link, threads, external, urlmax, maxnum, limit_count, warnings):
+    def __init__(self, folder_name, base_link, threads, external,
+                 urlmax, maxnum, limit_count, warnings):
         self.FOLDER_NAME = folder_name
         self.BASE_LINK = base_link
         self.DOMAIN_NAME = get_domain_name(base_link)
@@ -23,7 +24,8 @@ class SpiderMain:
         self.limit_count = limit_count
         self.WARNINGS = warnings
         self.WARNING_TRIGGER = 99
-        Spider(folder_name, base_link, self.DOMAIN_NAME, urlmax, maxnum, external, 0)
+        Spider(folder_name, base_link, self.DOMAIN_NAME,
+               urlmax, maxnum, external, 0)
 
     # Function in charge of creating threads for the spider
     def create_threads(self):
@@ -34,7 +36,7 @@ class SpiderMain:
                 self.t.start()
         except Exception as e:
             print(e)
-            
+
     # Gives the threads jobs (URLs)
     def work(self):
         while True:
@@ -45,7 +47,7 @@ class SpiderMain:
                 self.limit_count += 1
             except Exception as e:
                 print(e)
-                
+
     # Warns the user
     @staticmethod
     def warning_activated():
@@ -57,26 +59,29 @@ class SpiderMain:
             print("Resuming...")
             return 0
         else:
+            print("Bad input")
             SpiderMain.warning_activated()
 
     # Add links to queue and prepare them for crawling
     def create_jobs(self):
         stop_signal = False
-        print("Creating Jobs")
         for link in file_to_set(self.QUEUE_FILE):
             # Checking if the crawler has hit the user defined limit
-            if (self.WARNING_TRIGGER == self.limit_count) and (self.WARNINGS == True):
-                print("THE CRAWLER HAS CRAWLED 100 URLs. ARE YOU SURE YOU WISH TO CONTINUE?")
-                print("CONTINUEING WILL LEAD TO LARGER FILE SIZES. IF YOU HAVE EXTERNAL SITES ENABLED,")
+            if (self.WARNING_TRIGGER == self.limit_count) and (self.WARNINGS):
+                print("THE CRAWLER HAS CRAWLED 100 URLs." +
+                      " ARE YOU SURE YOU WISH TO CONTINUE?")
+                print("CONTINUEING WILL LEAD TO LARGER FILE SIZES." +
+                      " IF YOU HAVE EXTERNAL SITES ENABLED,")
                 print("CONSIDER TURNING ON COMPRESSING.")
                 if SpiderMain.warning_activated() == 1:
                     stop_signal = True
                 else:
                     pass
-            if ((self.limit_count != self.MAXNUM) or (self.MAX == False)) and (stop_signal == False):
-                self.queue.put(link)
-                self.queue.join()
-                self.crawl()
+            if ((self.limit_count != self.MAXNUM) or (not self.MAX)):
+                if not stop_signal:
+                    self.queue.put(link)
+                    self.queue.join()
+                    self.crawl()
             else:
                 pass
 

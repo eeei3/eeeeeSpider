@@ -13,12 +13,12 @@ class CrawlerGUI:
 
     def main(self, links):
         y_height = 0
-
+        # Setting a appropriate height
         for link in links:
             y_height = y_height + 1
 
         root = Tk()
-
+        # Creating the scrollbar
         vertical = Scrollbar(root, orient='vertical')
         vertical.pack(side=RIGHT, fill=Y)
 
@@ -28,7 +28,7 @@ class CrawlerGUI:
         text.pack(side=TOP, fill=X)
 
         vertical.config(command=text.yview)
-
+        # Populating text widget
         for link in links:
             text.insert(END, link + "\n")
 
