@@ -25,7 +25,7 @@ Options explanations:
 4. Warnings [True or False]
 - This feature will pause the crawler once it has hit a certain number of sites. Enableing this will cause the crawler to pause and give the user
   a choice with what to do.
-- Disableing this feature will cause the crawler to keep parsing.
+- Disabling this feature will cause the crawler to keep parsing without any input from the user.
 5. Compress [True or False]
 - This gives the user the option if they want the results to be compressed or not. This can be helpful, for when the crawler needs to parse a large site, to save storage space.
                                                                                                                                                                                  
@@ -34,7 +34,7 @@ Options explanations:
 1. Classname [Name]
 - This gives the user the ability to assign the text a class for easier manipulation
 2. Linkortext [Link or Text]
-- Gives the user the ability to either choose the <a> tag or a text tag
+- Gives the user the ability to either choose the a tag or text tag
 3. Headers [True or False]
 - Gives the user the ability to assign the text a header tag. h1-h4 are supported.
 
