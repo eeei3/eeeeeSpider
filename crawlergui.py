@@ -1,5 +1,4 @@
-from tkinter import *
-
+from tkinter import Tk, Scrollbar, RIGHT, TOP, Y, Text, NONE, X, END
 
 class CrawlerGUI:
 

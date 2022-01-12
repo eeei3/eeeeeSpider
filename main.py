@@ -1,8 +1,8 @@
 import threading
 from queue import Queue
 from spider import Spider
-from domain import *
-from general import *
+from domain import get_domain_name
+from general import file_to_set, set_to_file
 
 
 class SpiderMain:
