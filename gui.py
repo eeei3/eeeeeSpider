@@ -2,12 +2,25 @@ import os
 from os import system
 import json
 from main import SpiderMain
-from crawlergui import CrawlerGUI
 from htmlcreator import HTMLCreator
+from tkinter import Tk, Scrollbar, RIGHT, TOP, Y, Text, NONE, X, END
+import csv
+import zipfile
 
+
+"""
+# /***************************************************************************************
+#  This is the main part of this application. This is the code to run to start the program.
+#  Here you will find the CLI prompts, configuration choices and start up and end functions.
+# ***************************************************************************************\
+"""
 
 class Main:
-
+    """
+    # /***************************************************************************************
+    #  Main function of the program. Houses all functions.
+    # ***************************************************************************************\
+    """
     def __init__(self, directory):
         self.directory = directory
         self.queue = os.path.join(directory, "queue.txt")
@@ -30,41 +43,41 @@ class Main:
         }
         if not os.path.exists(directory):
             os.mkdir(directory)
-            with open(self.queue, 'x') as f:
-                f.close()
-            with open(self.crawled, 'x') as f:
-                f.close()
-            with open(self.settingsdir, 'x') as f:
-                f.write(json.dumps(self.configs))
-                f.close()
+            with open(self.queue, 'x', encoding='utf8') as file:
+                file.close()
+            with open(self.crawled, 'x', encoding='utf8') as file:
+                file.close()
+            with open(self.settingsdir, 'x', encoding='utf8') as file:
+                file.write(json.dumps(self.configs))
+                file.close()
         else:
             # Making sure the crawled file is present and now empty
-            with open(self.crawled, 'w') as f:
-                f.write("")
-                f.close()
+            with open(self.crawled, 'w', encoding='utf8') as file:
+                file.write("")
+                file.close()
             # Making sure the queue file is present
             try:
-                with open(self.queue, 'x') as f:
-                    f.close()
-            except Exception as e:
+                with open(self.queue, 'x', encoding='utf8') as file:
+                    file.close()
+            except Exception:
                 pass
             # Making sure the configs file is present
             try:
-                with open(self.settingsdir, 'r') as f:
-                    self.configs = json.loads(f.read())
-            except Exception as e:
+                with open(self.settingsdir, 'r', encoding='utf8') as file:
+                    self.configs = json.loads(file.read())
+            except Exception:
                 print("""Panic! Configs folder not found!
                          Loading in default values.""")
-                with open(self.settingsdir, 'w') as f:
-                    f.write(self.configs)
+                with open(self.settingsdir, 'w', encoding='utf8') as file:
+                    file.write(self.configs)
             # Removing superfluous data
             try:
                 os.remove(directory + "/crawled.csv")
-            except Exception as e:
+            except Exception:
                 pass
             try:
                 os.remove(directory + "/results.html")
-            except Exception as e:
+            except Exception:
                 pass
 
     # /***************************************************************************************
@@ -78,7 +91,37 @@ class Main:
         except Exception as e:
             # For linux people
             _ = system('clear')
+    
+    # /***************************************************************************************
+    #  Function that creates a gui using Tkinter. Then it creates a scrollbar object
+    #  and the text element that is created gets populated with the links.
+    # ***************************************************************************************\
+    @staticmethod
+    def create_viewing_gui(links):
+        y_height = 0
+        # Setting a appropriate height
+        for link in links:
+            y_height = y_height + 1
+        # Creating root window
+        root = Tk()
+        # Creating the scrollbar
+        vertical = Scrollbar(root, orient='vertical')
+        vertical.pack(side=RIGHT, fill=Y)
 
+        text = Text(root, width=15, height=y_height, wrap=NONE,
+                    yscrollcommand=vertical.set)
+
+        text.pack(side=TOP, fill=X)
+
+        vertical.config(command=text.yview)
+        # Populating text widget
+        for link in links:
+            text.insert(END, link + "\n")
+
+        root.minsize(500, y_height)
+        root.title("Link Viewer")
+        root.mainloop()
+    
     # /***************************************************************************************
     #  Function that gives the user options at the end of the program
     # ***************************************************************************************\
@@ -87,7 +130,6 @@ class Main:
         #  Function that exports the file into a CSV file for spreadsheet work
         # ***************************************************************************************\
         def export_to_csv():
-            import csv
             with open(self.directory + '/crawled.csv', 'x',
                       newline='') as csvfile:
                 with open(self.directory + "/crawled.txt", "r") as file:
@@ -104,16 +146,15 @@ class Main:
         #  Function that exports the file into a HTML file for website use
         # ***************************************************************************************\
         def export_to_html(url_list):
-            HTML = HTMLCreator(url_list, self.directory + "/results.html",
+            html_obj = HTMLCreator(url_list, self.directory + "/results.html",
                                self.configs["linkortext"],
                                self.configs["classnames"])
-            HTML.html_generator(self.configs["headers"],
+            html_obj.html_generator(self.configs["headers"],
                                 self.configs["classnames"])
             return 0
         # Checking if the user wanted to compress their file or not
         # and then using the deflated algorithm to compress it
         if self.configs["compress"]:
-            import zipfile
             compressedfile = zipfile.ZipFile(self.directory +
                                              '/crawled.zip', 'w',
                                              zipfile.ZIP_DEFLATED)
@@ -135,8 +176,7 @@ Crawler has finished!
             with open(self.directory + "/crawled.txt", "r") as file:
                 url_list = file.read()
                 url_list = url_list.split("\n")
-            viewer = CrawlerGUI()
-            viewer.main(url_list)
+            Main.create_viewing_gui(url_list)
         elif choice == "E" or choice == "export" or choice == "e":
             with open(self.directory + "/crawled.txt", "r") as file:
                 url_list = file.read()
@@ -158,8 +198,6 @@ Crawler has finished!
     # ***************************************************************************************\
     def start(self):
         url = input("Url to crawl:\n")
-        print(self.directory)
-        print(self.configs)
         spidermain = SpiderMain(
             self.directory, url,
             self.configs["threads"],

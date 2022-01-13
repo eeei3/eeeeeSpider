@@ -1,5 +1,6 @@
 from tkinter import Tk, Scrollbar, RIGHT, TOP, Y, Text, NONE, X, END
 
+
 class CrawlerGUI:
 
     def __init__(self):

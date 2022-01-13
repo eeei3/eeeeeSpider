@@ -1,9 +1,17 @@
 from html.parser import HTMLParser
 from urllib import parse
 
+
+"""
+# /***************************************************************************************
+#  This module is responsable for turning snippits of HTML into acutal links.
+# ***************************************************************************************\
+"""
+
 class LinkFinder(HTMLParser):
 
     def __init__(self, base_url, page_url):
+        # inheriting objects from spider.py
         super().__init__()
         self.base_url = base_url
         self.page_url = page_url
@@ -16,7 +24,7 @@ class LinkFinder(HTMLParser):
                     # Grabbing a potential link
                     if attribute == 'href':
                         url = parse.urljoin(self.base_url, value)
-                        
+                        # Adding the url to the set
                         self.links.add(url)
                         
         except Exception as e:

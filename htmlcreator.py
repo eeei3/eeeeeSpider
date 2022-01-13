@@ -52,20 +52,20 @@ class HTMLCreator:
                         print("Empty line")
                         continue
                     if headers["headers1"]:
-                        html = html + "<h1>" + "<a> href=\"" +\
-                               link + "\"</a>" + "</h1>" + "\n"
+                        html = html + "<h1>" + "<a href=\"" +\
+                               link + "\">" + link + "</a>" + "</h1>" + "\n"
                     elif headers["headers2"]:
-                        html = html + "<h2>" + "<a> href=\"" +\
-                               link + "\"</a>" + "</h2>" + "\n"
+                        html = html + "<h2>" + "<a href=\"" +\
+                               link + "\">" + link + "</a>" + "</h2>" + "\n"
                     elif headers["headers3"]:
-                        html = html + "<h3>" + "<a> href=\"" +\
-                               link + "\"</a>" + "</h3>" + "\n"
+                        html = html + "<h3>" + "<a href=\"" +\
+                               link + "\">" + link + "</a>" + "</h3>" + "\n"
                     elif headers["headers4"]:
-                        html = html + "<h4>" + "<a> href=\"" +\
-                               link + "\"</a>" + "</h4>" + "\n"
+                        html = html + "<h4>" + "<a href=\"" +\
+                               link + "\">" + link + "</a>" + "</h4>" + "\n"
                     else:
-                        html = html + "<p>" + "<a> href=\"" +\
-                               link + "\"</a>" + "</p>" + "\n"
+                        html = html + "<p>" + "<a href=\"" +\
+                               link + "\">" + link + "</a>" + "</p>" + "\n"
             # The user does not know what they are doing.
             else:
                 print("How did we get here?")
