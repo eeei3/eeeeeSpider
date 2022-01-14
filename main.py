@@ -5,6 +5,12 @@ from domain import get_domain_name
 from general import file_to_set
 
 
+"""
+# /***************************************************************************************
+#  This module is the crawler. Most functions though are located on spider.py
+# ***************************************************************************************\
+"""
+
 class SpiderMain:
     # For counting how many pages have been crawled
     limit_count = 0

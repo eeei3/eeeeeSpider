@@ -18,6 +18,7 @@ class LinkFinder(HTMLParser):
         self.links = set()
 
     def handle_starttag(self, tag, attrs):
+        # Function for finding links
         try:
             if tag == 'a':
                 for (attribute, value) in attrs:

@@ -1,6 +1,12 @@
 from general import write_file
 
 
+"""
+# /***************************************************************************************
+#  This module is responsable for generating a HTML file from the given links.
+# ***************************************************************************************\
+"""
+
 class HTMLCreator:
 
     def __init__(self, links, path, linkortext, classnames):
@@ -33,23 +39,18 @@ class HTMLCreator:
             if self.linkortext == "text":
                 for link in self.links:
                     if link == "\n":
-                        print("Empty line")
+                        # Is the element empty? Skip it!
                         continue
-                    if headers["headers1"]:
-                        html = html + "<h1>" + link + "</h1>" + "\n"
-                    elif headers["header2"]:
-                        html = html + "<h2>" + link + "</h2>" + "\n"
-                    elif headers["header3"]:
-                        html = html + "<h3>" + link + "</h3>" + "\n"
-                    elif headers["header4"]:
-                        html = html + "<h4>" + link + "</h4>" + "\n"
-                    else:
-                        html = html + "<p>" + link + "</p>" + "\n"
+                    if headers["headers1"]: html = html + "<h1>" + link + "</h1>" + "\n"
+                    elif headers["header2"]: html = html + "<h2>" + link + "</h2>" + "\n"
+                    elif headers["header3"]: html = html + "<h3>" + link + "</h3>" + "\n"
+                    elif headers["header4"]: html = html + "<h4>" + link + "</h4>" + "\n"
+                    else: html = html + "<p>" + link + "</p>" + "\n"
             # Does the user want the url as a hyperlink?
             elif self.linkortext == "link":
                 for link in self.links:
                     if link == "\n":
-                        print("Empty line")
+                        # Is the element empty? Skip it!
                         continue
                     if headers["headers1"]:
                         html = html + "<h1>" + "<a href=\"" +\
@@ -78,8 +79,8 @@ class HTMLCreator:
             # Does the user want the url in plain text?
             if self.linkortext == "text":
                 for link in self.links:
+                    # Is the element empty? Skip it!
                     if link == "\n":
-                        print("Empty line")
                         continue
                     if headers["headers1"]:
                         html = html + "<h1 class=" + self.classnames +\
@@ -99,8 +100,8 @@ class HTMLCreator:
             # Does the user want the url as a hyperlink?
             elif self.linkortext == "link":
                 for link in self.links:
+                    # Is the element empty? Skip it!
                     if link == "\n":
-                        print("Empty line")
                         continue
                     if headers["headers1"]:
                         html = html + "<h1 class=" + self.classnames + ">" \

@@ -4,6 +4,12 @@ from domain import get_domain_name
 from general import file_to_set, set_to_file
 
 
+"""
+# /***************************************************************************************
+#  This module is responsable for performing many of the crawler functions.
+# ***************************************************************************************\
+"""
+
 class Spider:
 
     project_name = ''
@@ -32,16 +38,16 @@ class Spider:
         self.boot()
         self.crawl_page('First spider', Spider.base_url)
 
-    # Creates directory and files for project on first run
-    # and starts the spider
     @staticmethod
     def boot():
+        # Creates directory and files for project on first run
+        # and starts the spider
         Spider.queue = file_to_set(Spider.queue_file)
         Spider.crawled = file_to_set(Spider.crawled_file)
 
-    # Updates user display, fills queue and updates files
     @staticmethod
     def crawl_page(thread_name, page_url):
+        # Updates user display, fills queue and updates files
         if page_url not in Spider.crawled:
             print(thread_name + ' now crawling ' + page_url)
             print('Queue ' + str(len(Spider.queue)) +
@@ -59,10 +65,10 @@ class Spider:
             Spider.crawled.add(page_url)
             Spider.update_files()
 
-    # Converts raw response data into readable information
-    # and checks for proper html formatting
     @staticmethod
     def gather_links(page_url):
+        # Converts raw response data into readable information
+        # and checks for proper html formatting
         html_string = ''
         try:
             response = urlopen(page_url)
@@ -77,9 +83,9 @@ class Spider:
             return set()
         return finder.page_links()
 
-    # Saves queue data to project files
     @staticmethod
     def add_links_to_queue(links):
+        # Saves queue data to project files
         try:
             for url in links:
                 if (url in Spider.queue) or (url in Spider.crawled):
@@ -91,9 +97,9 @@ class Spider:
             print(str(e))
             return
 
-    # Saves queue data to project files without checking domain
     @staticmethod
     def add_links_to_queue_no_check(links):
+        # Saves queue data to project files without checking domain
         try:
             for url in links:
                 if (url in Spider.queue) or (url in Spider.crawled):
@@ -105,5 +111,6 @@ class Spider:
 
     @staticmethod
     def update_files():
+        # Moving data from memory to drive
         set_to_file(Spider.queue, Spider.queue_file)
         set_to_file(Spider.crawled, Spider.crawled_file)

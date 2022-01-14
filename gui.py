@@ -88,7 +88,7 @@ class Main:
         try:
             # For weird windows people
             _ = system('cls')
-        except Exception as e:
+        except Exception:
             # For linux people
             _ = system('clear')
     
@@ -131,7 +131,7 @@ class Main:
         # ***************************************************************************************\
         def export_to_csv():
             with open(self.directory + '/crawled.csv', 'x',
-                      newline='') as csvfile:
+                      newline='', encoding='utf8') as csvfile:
                 with open(self.directory + "/crawled.txt", "r") as file:
                     url_list = file.read()
                     url_list = url_list.split("\n")
@@ -173,14 +173,16 @@ Crawler has finished!
         print("V to view, E to export and Q to quit")
         choice = input("")
         if choice == "V" or choice == "view" or choice == "v":
-            with open(self.directory + "/crawled.txt", "r") as file:
+            with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
                 url_list = file.read()
                 url_list = url_list.split("\n")
             Main.create_viewing_gui(url_list)
+            
         elif choice == "E" or choice == "export" or choice == "e":
-            with open(self.directory + "/crawled.txt", "r") as file:
+            with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
                 url_list = file.read()
                 url_list = url_list.split("\n")
+                
             print("Export to CSV or to HTML?")
             print("Exports are wiped on start of program! Remember to backup!")
             choice = input("")
