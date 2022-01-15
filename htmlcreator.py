@@ -1,11 +1,10 @@
-from general import write_file
-
-
 """
 # /***************************************************************************************
-#  This module is responsable for generating a HTML file from the given links.
+#  This module is responsible for generating an HTML file from the given links.
 # ***************************************************************************************\
 """
+from general import write_file
+
 
 class HTMLCreator:
 

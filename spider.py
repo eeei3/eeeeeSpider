@@ -1,22 +1,21 @@
+"""
+# /***************************************************************************************
+#  This module is responsible for performing many of the crawler functions.
+# ***************************************************************************************\
+"""
 from urllib.request import urlopen
 from link_finder import LinkFinder
 from domain import get_domain_name
 from general import file_to_set, set_to_file
 
 
-"""
-# /***************************************************************************************
-#  This module is responsable for performing many of the crawler functions.
-# ***************************************************************************************\
-"""
-
 class Spider:
-
+    """
     project_name = ''
     base_url = ''
     domain_name = ''
     queue_file = ''
-    crawled_file = ''
+    crawled_file = ''"""
     queue = set()
     crawled = set()
     spiderlimits = False

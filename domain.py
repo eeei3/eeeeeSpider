@@ -1,12 +1,12 @@
+"""
+# /***************************************************************************************
+#  Module that is responsible for fetching the domain name and the subdomain name of
+#  the URLs that are crawled.
+# ***************************************************************************************\
+"""
 from urllib.parse import urlparse
 
 
-"""
-# /***************************************************************************************
-#  Module that is responsible for fetching the domain name and the sub domain name of
-#  the URL's that are crawled.
-# ***************************************************************************************\
-"""
 def get_domain_name(url):
     # Getting the domain name ex. github
     try:

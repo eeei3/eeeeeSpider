@@ -1,3 +1,9 @@
+"""
+# /***************************************************************************************
+#  This is the main part of this application. This is the code to run to start the program.
+#  Here you will find the CLI prompts, configuration choices and start up and end functions.
+# ***************************************************************************************\
+"""
 import os
 from os import system
 import json
@@ -7,13 +13,6 @@ from tkinter import Tk, Scrollbar, RIGHT, TOP, Y, Text, NONE, X, END
 import csv
 import zipfile
 
-
-"""
-# /***************************************************************************************
-#  This is the main part of this application. This is the code to run to start the program.
-#  Here you will find the CLI prompts, configuration choices and start up and end functions.
-# ***************************************************************************************\
-"""
 
 class Main:
     """
@@ -87,7 +86,7 @@ class Main:
     def clear_screen():
         try:
             # For weird windows people
-            _ = system('cls')
+            _ = system('clear')
         except Exception:
             # For linux people
             _ = system('clear')

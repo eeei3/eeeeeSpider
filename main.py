@@ -1,3 +1,8 @@
+"""
+# /***************************************************************************************
+#  This module is the crawler. Most functions though are located on spider.py
+# ***************************************************************************************\
+"""
 import threading
 from queue import Queue
 from spider import Spider
@@ -5,38 +10,32 @@ from domain import get_domain_name
 from general import file_to_set
 
 
-"""
-# /***************************************************************************************
-#  This module is the crawler. Most functions though are located on spider.py
-# ***************************************************************************************\
-"""
-
 class SpiderMain:
     # For counting how many pages have been crawled
     limit_count = 0
 
     def __init__(self, folder_name, base_link, threads, external,
                  urlmax, maxnum, limit_count, warnings):
-        self.FOLDER_NAME = folder_name
-        self.BASE_LINK = base_link
-        self.DOMAIN_NAME = get_domain_name(base_link)
-        self.THREADS = threads
-        self.EXTERNAL = external
-        self.MAX = urlmax
-        self.MAXNUM = maxnum - 1
-        self.QUEUE_FILE = folder_name + '/queue.txt'
-        self.CRAWLED_FILE = folder_name + '/crawled.txt'
+        self.folder_name = folder_name
+        self.base_link = base_link
+        self.domain_name = get_domain_name(base_link)
+        self.threads = threads
+        self.external = external
+        self.max = urlmax
+        self.maxnum = maxnum - 1
+        self.queue_file = folder_name + '/queue.txt'
+        self.crawled_file = folder_name + '/crawled.txt'
         self.queue = Queue()
         self.limit_count = limit_count
-        self.WARNINGS = warnings
-        self.WARNING_TRIGGER = 99
-        Spider(folder_name, base_link, self.DOMAIN_NAME,
+        self.warnings = warnings
+        self.warning_trigger = 99
+        Spider(folder_name, base_link, self.domain_name,
                urlmax, maxnum, external, 0)
 
     # Function in charge of creating threads for the spider
     def create_threads(self):
         try:
-            for _ in range(self.THREADS):
+            for _ in range(self.threads):
                 self.t = threading.Thread(target=self.work)
                 self.t.daemon = True
                 self.t.start()
@@ -71,19 +70,19 @@ class SpiderMain:
     # Add links to queue and prepare them for crawling
     def create_jobs(self):
         stop_signal = False
-        for link in file_to_set(self.QUEUE_FILE):
+        for link in file_to_set(self.queue_file):
             # Checking if the crawler has hit the user defined limit
-            if (self.WARNING_TRIGGER == self.limit_count) and (self.WARNINGS):
+            if (self.warning_trigger == self.limit_count) and self.warnings:
                 print("THE CRAWLER HAS CRAWLED 100 URLs." +
                       " ARE YOU SURE YOU WISH TO CONTINUE?")
                 print("CONTINUEING WILL LEAD TO LARGER FILE SIZES." +
-                      " IF YOU HAVE EXTERNAL SITES ENABLED,")
+                      " IF YOU HAVE external SITES ENABLED,")
                 print("CONSIDER TURNING ON COMPRESSING.")
                 if SpiderMain.warning_activated() == 1:
                     stop_signal = True
                 else:
                     pass
-            if ((self.limit_count != self.MAXNUM) or (not self.MAX)):
+            if ((self.limit_count != self.maxnum) or (not self.max)):
                 if not stop_signal:
                     self.queue.put(link)
                     self.queue.join()
@@ -93,7 +92,7 @@ class SpiderMain:
 
     # Function that gets queued links and calls create_jobs to prepare them
     def crawl(self):
-        queued_links = file_to_set(self.QUEUE_FILE)
+        queued_links = file_to_set(self.queue_file)
         if len(queued_links) > 0:
             print(str(len(queued_links)) + " links in the queue")
             self.create_jobs()

@@ -1,12 +1,11 @@
-from html.parser import HTMLParser
-from urllib import parse
-
-
 """
 # /***************************************************************************************
 #  This module is responsable for turning snippits of HTML into acutal links.
 # ***************************************************************************************\
 """
+from html.parser import HTMLParser
+from urllib import parse
+
 
 class LinkFinder(HTMLParser):
 
