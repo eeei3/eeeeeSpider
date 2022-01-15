@@ -8,6 +8,7 @@ from queue import Queue
 from spider import Spider
 from domain import get_domain_name
 from general import file_to_set
+import sys
 
 
 class SpiderMain:
@@ -39,8 +40,8 @@ class SpiderMain:
                 self.t = threading.Thread(target=self.work)
                 self.t.daemon = True
                 self.t.start()
-        except Exception as e:
-            print(e)
+        except RuntimeError:
+            sys.exit()
 
     # Gives the threads jobs (URLs)
     def work(self):
@@ -52,6 +53,7 @@ class SpiderMain:
                 self.limit_count += 1
             except Exception as e:
                 print(e)
+                sys.exit()
 
     # Warns the user
     @staticmethod

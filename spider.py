@@ -7,15 +7,10 @@ from urllib.request import urlopen
 from link_finder import LinkFinder
 from domain import get_domain_name
 from general import file_to_set, set_to_file
+import sys
 
 
 class Spider:
-    """
-    project_name = ''
-    base_url = ''
-    domain_name = ''
-    queue_file = ''
-    crawled_file = ''"""
     queue = set()
     crawled = set()
     spiderlimits = False
@@ -94,7 +89,7 @@ class Spider:
                 Spider.queue.add(url)
         except Exception as e:
             print(str(e))
-            return
+            sys.exit()
 
     @staticmethod
     def add_links_to_queue_no_check(links):
@@ -106,10 +101,16 @@ class Spider:
                 Spider.queue.add(url)
         except Exception as e:
             print(str(e))
-            return
+            sys.exit()
 
     @staticmethod
     def update_files():
         # Moving data from memory to drive
-        set_to_file(Spider.queue, Spider.queue_file)
-        set_to_file(Spider.crawled, Spider.crawled_file)
+        try:
+            set_to_file(Spider.queue, Spider.queue_file)
+            set_to_file(Spider.crawled, Spider.crawled_file)
+        except FileNotFoundError:
+            sys.exit()
+        except OSError:
+            sys.exit()
+
