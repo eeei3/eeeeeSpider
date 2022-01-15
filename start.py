@@ -7,12 +7,12 @@
 import os
 import sys
 from os import system
-import json
-from main import SpiderMain
-from htmlcreator import HTMLCreator
 from tkinter import Tk, Scrollbar, RIGHT, TOP, Y, Text, NONE, X, END
 import csv
 import zipfile
+import json
+from main import SpiderMain
+from htmlcreator import HTMLCreator
 
 
 class Main:
@@ -91,11 +91,13 @@ class Main:
             _ = system('cls')
         else:
             print("Unsupported platform!")
-    
-    # /***************************************************************************************
-    #  Function that creates a gui using Tkinter. Then it creates a scrollbar object
-    #  and the text element that is created gets populated with the links.
-    # ***************************************************************************************\
+
+    """
+    /***************************************************************************************
+    Function that creates a gui using Tkinter. Then it creates a scrollbar object
+    and the text element that is created gets populated with the links.
+    ***************************************************************************************\
+    """
     @staticmethod
     def create_viewing_gui(links):
         y_height = 0
@@ -121,30 +123,36 @@ class Main:
         root.minsize(500, y_height)
         root.title("Link Viewer")
         root.mainloop()
-    
-    """# /***************************************************************************************
-    #  Function that gives the user options at the end of the program
-    # ***************************************************************************************\""""
+
+    """
+    /***************************************************************************************
+    Function that gives the user options at the end of the program
+    ***************************************************************************************\
+    """
     def finish(self):
-        # /***************************************************************************************
-        #  Function that exports the file into a CSV file for spreadsheet work
-        # ***************************************************************************************\
+        """
+        /***************************************************************************************
+        Function that exports the file into a CSV file for spreadsheet work
+        ***************************************************************************************\
+        """
         def export_to_csv():
             with open(self.directory + '/crawled.csv', 'x',
                       newline='', encoding='utf8') as csvfile:
-                with open(self.directory + "/crawled.txt", "r") as file:
-                    url_list = file.read()
-                    url_list = url_list.split("\n")
+                with open(self.directory + "/crawled.txt", "r") as result_file:
+                    craweld_url_list = result_file.read()
+                    craweld_url_list = craweld_url_list.split("\n")
                     csvwriter = csv.writer(csvfile, delimiter=' ',
                                            quotechar='|',
                                            quoting=csv.QUOTE_MINIMAL)
-                    for url in url_list:
+                    for url in craweld_url_list:
                         csvwriter.writerow(url)
             return 0
 
-        # /***************************************************************************************
-        #  Function that exports the file into a HTML file for website use
-        # ***************************************************************************************\
+        """
+        /***************************************************************************************
+        Function that exports the file into a HTML file for website use
+        ***************************************************************************************\
+        """
         def export_to_html(url_list):
             html_obj = HTMLCreator(url_list, self.directory + "/results.html",
                                self.configs["linkortext"],
@@ -177,7 +185,7 @@ Crawler has finished!
                 url_list = file.read()
                 url_list = url_list.split("\n")
             Main.create_viewing_gui(url_list)
-            
+
         elif choice == "E" or choice == "export" or choice == "e":
             with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
                 url_list = file.read()
@@ -226,7 +234,7 @@ Crawler has finished!
             self.settings()
         # Exit
         elif choice == "3" or choice == "exit":
-            quit()
+            sys.exit()
 
         elif choice == "4" or choice == "help":
             print("Help is on the way!")
@@ -398,11 +406,12 @@ Crawler has finished!
             print("I didn't understand that")
             self.settings()
         # Writing changes to the file
-        with open(self.settingsdir, 'w') as f:
-            f.write(json.dumps(self.configs))
-            f.close()
+        with open(self.settingsdir, 'w') as file:
+            file.write(json.dumps(self.configs))
+            file.close()
         main.clear_screen()
         self.main()
+
 
 # Starting the application
 main = Main("results")
