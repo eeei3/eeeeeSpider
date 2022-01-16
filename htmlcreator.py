@@ -1,3 +1,5 @@
+#! /usr/local/bin/python3
+
 """
 # /***************************************************************************************
 #  This module is responsible for generating an HTML file from the given links.

@@ -1,3 +1,5 @@
+#! /usr/local/bin/python3
+
 """
 # /***************************************************************************************
 #  Module that is responsible for fetching the domain name and the subdomain name of

@@ -1,3 +1,5 @@
+#! /usr/local/bin/python3
+
 """
 # /***************************************************************************************
 #  This is the main part of this application. This is the code to run to start the program.
@@ -186,7 +188,6 @@ class Main:
         choice = input("")
         choice = choice.lower()
         if choice == "view" or choice == "v":
-            print("viewing")
             with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
                 url_list = file.read()
                 url_list = url_list.split("\n")

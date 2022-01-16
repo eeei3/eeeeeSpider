@@ -1,3 +1,5 @@
+#! /usr/local/bin/python3
+
 """
 # /***************************************************************************************
 #  This module is responsible for performing many of the crawler functions.

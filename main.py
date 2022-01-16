@@ -1,3 +1,5 @@
+#! /usr/local/bin/python3
+
 """
 # /***************************************************************************************
 #  This module is the crawler. Most functions though are located on spider.py
