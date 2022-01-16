@@ -130,7 +130,7 @@ class HTMLCreator:
             # The user does not know what they are doing.
             else:
                 print("How did we get here?")
-                raise "Unexpected/InvalidConfig"
+                raise BadConfig
 
         # Tying up loose ends
         html = html + htmlendtags

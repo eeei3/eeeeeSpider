@@ -17,9 +17,9 @@ from htmlcreator import HTMLCreator
 
 class Main:
     """
-    # /***************************************************************************************
-    #  Main function of the program. Houses all functions.
-    # ***************************************************************************************\
+    /***************************************************************************************
+    Main function of the program. Houses all functions.
+    ***************************************************************************************\
     """
     def __init__(self, directory):
         self.directory = directory
@@ -80,9 +80,11 @@ class Main:
             except os.error:
                 pass
 
-    # /***************************************************************************************
-    #  Function that clears the window
-    # ***************************************************************************************\
+    """
+    /***************************************************************************************
+    Function that clears the window
+    ***************************************************************************************\
+    """
     @staticmethod
     def clear_screen():
         if sys.platform == "linux":
@@ -101,8 +103,8 @@ class Main:
     @staticmethod
     def create_viewing_gui(links):
         y_height = 0
-        # Setting a appropriate height
-        for link in links:
+        # Setting an appropriate height
+        for _ in links:
             y_height = y_height + 1
         # Creating root window
         root = Tk()
@@ -160,6 +162,7 @@ class Main:
             html_obj.html_generator(self.configs["headers"],
                                 self.configs["classnames"])
             return 0
+
         # Checking if the user wanted to compress their file or not
         # and then using the deflated algorithm to compress it
         if self.configs["compress"]:
@@ -170,42 +173,48 @@ class Main:
             compressedfile.close()
 
         main.clear_screen()
+
         print("""
-/***************************************************************************
-Crawler has finished!
-***************************************************************************\\
-    """)
+        /***************************************************************************
+        Crawler has finished!
+        ***************************************************************************\
+        """)
         print("""You can either view the URL's in the CLI,
               export the file to a CSV format""")
         print("or exit the program right now")
         print("V to view, E to export and Q to quit")
         choice = input("")
-        if choice == "V" or choice == "view" or choice == "v":
+        choice = choice.lower()
+        if choice == "view" or choice == "v":
+            print("viewing")
             with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
                 url_list = file.read()
                 url_list = url_list.split("\n")
             Main.create_viewing_gui(url_list)
 
-        elif choice == "E" or choice == "export" or choice == "e":
+        elif choice == "export" or choice == "e":
             with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
                 url_list = file.read()
                 url_list = url_list.split("\n")
-                
             print("Export to CSV or to HTML?")
             print("Exports are wiped on start of program! Remember to backup!")
             choice = input("")
-            if (choice).lower() == "csv":
+            if choice.lower() == "csv":
                 export_to_csv()
-            elif (choice).lower() == "html":
+            elif choice.lower() == "html":
                 export_to_html(url_list)
-        elif choice == "Q" or choice == "quit" or choice == "q":
+
+        elif choice == "quit" or choice == "q":
             return
+
         else:
             print("Invalid answer")
 
-    # /***************************************************************************************
-    #  Function that calls the crawler
-    # ***************************************************************************************\
+    """
+    /***************************************************************************************
+    Function that calls the crawler
+    ***************************************************************************************\
+    """
     def start(self):
         url = input("Url to crawl:\n")
         spidermain = SpiderMain(
@@ -217,26 +226,28 @@ Crawler has finished!
             self.configs["warnings"])
         spidermain.kick_start()
 
-    # /***************************************************************************************
-    #  Main function (Gets user input)
-    # ***************************************************************************************\
+    """
+    /***************************************************************************************
+    Main function (Gets user input)
+    ***************************************************************************************\
+    """
     def main(self):
         print("Please input your choice.\nChoices\n-------------------")
         print("1.Start crawling\n2.Change Settings\n3.Exit\n4.Help")
         choice = input("")
         choice = choice.lower()
         # Starting the crawler
-        if choice == "1" or choice == "start":
+        if choice == "1" or "start":
             self.start()
             self.finish()
         # Changing settings
-        elif choice == "2" or choice == "settings":
+        elif choice == "2" or "settings":
             self.settings()
         # Exit
-        elif choice == "3" or choice == "exit":
+        elif choice == "3" or "exit":
             sys.exit()
 
-        elif choice == "4" or choice == "help":
+        elif choice == "4" or "help":
             print("Help is on the way!")
         else:
             pass

@@ -72,8 +72,8 @@ class Spider:
                 html_string = html_bytes.decode("utf-8")
             finder = LinkFinder(Spider.base_url, page_url)
             finder.feed(html_string)
-        except Exception as e:
-            print(str(e))
+        except Exception as error:
+            print(str(error))
             return set()
         return finder.page_links()
 
@@ -87,8 +87,8 @@ class Spider:
                 if Spider.domain_name != get_domain_name(url):
                     continue
                 Spider.queue.add(url)
-        except Exception as e:
-            print(str(e))
+        except Exception as error:
+            print(str(error))
             sys.exit()
 
     @staticmethod
@@ -99,8 +99,8 @@ class Spider:
                 if (url in Spider.queue) or (url in Spider.crawled):
                     continue
                 Spider.queue.add(url)
-        except Exception as e:
-            print(str(e))
+        except Exception as error:
+            print(str(error))
             sys.exit()
 
     @staticmethod
@@ -113,4 +113,3 @@ class Spider:
             sys.exit()
         except OSError:
             sys.exit()
-

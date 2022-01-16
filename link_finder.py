@@ -1,6 +1,6 @@
 """
 # /***************************************************************************************
-#  This module is responsable for turning snippits of HTML into acutal links.
+#  This module is responsible for turning snippits of HTML into actual links.
 # ***************************************************************************************\
 """
 from html.parser import HTMLParser
