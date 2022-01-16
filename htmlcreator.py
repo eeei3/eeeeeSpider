@@ -6,6 +6,10 @@
 from general import write_file
 
 
+class BadConfig(Exception):
+    pass
+
+
 class HTMLCreator:
 
     def __init__(self, links, path, linkortext, classnames):
@@ -27,7 +31,6 @@ class HTMLCreator:
     #  Function that creates the HTML then dumps it
     # ***************************************************************************************\
     def html_generator(self, headers, classname):
-        html = self.htmlstarttags
         htmlendtags = "</body>\n</html>"
         # /***************************************************************************************
         #  Checking if the user has provided any class names
@@ -35,16 +38,22 @@ class HTMLCreator:
         # ***************************************************************************************\
         if self.classnames in ('', ' '):
             # Does the user want the url in plain text?
+            html = self.htmlstarttags
             if self.linkortext == "text":
                 for link in self.links:
                     if link == "\n":
                         # Is the element empty? Skip it!
                         continue
-                    if headers["headers1"]: html = html + "<h1>" + link + "</h1>" + "\n"
-                    elif headers["header2"]: html = html + "<h2>" + link + "</h2>" + "\n"
-                    elif headers["header3"]: html = html + "<h3>" + link + "</h3>" + "\n"
-                    elif headers["header4"]: html = html + "<h4>" + link + "</h4>" + "\n"
-                    else: html = html + "<p>" + link + "</p>" + "\n"
+                    if headers["headers1"]:
+                        html = html + "<h1>" + link + "</h1>" + "\n"
+                    elif headers["header2"]:
+                        html = html + "<h2>" + link + "</h2>" + "\n"
+                    elif headers["header3"]:
+                        html = html + "<h3>" + link + "</h3>" + "\n"
+                    elif headers["header4"]:
+                        html = html + "<h4>" + link + "</h4>" + "\n"
+                    else:
+                        html = html + "<p>" + link + "</p>" + "\n"
             # Does the user want the url as a hyperlink?
             elif self.linkortext == "link":
                 for link in self.links:
@@ -69,12 +78,13 @@ class HTMLCreator:
             # The user does not know what they are doing.
             else:
                 print("How did we get here?")
-                raise "Unexpected/InvalidConfig"
+                raise BadConfig
         # /***************************************************************************************
         #  Checking if the user has provided any class names
         #  CASE: Class name present
         # ***************************************************************************************\
         else:
+            html = self.htmlstarttags
             # Does the user want the url in plain text?
             if self.linkortext == "text":
                 for link in self.links:
@@ -104,24 +114,19 @@ class HTMLCreator:
                         continue
                     if headers["headers1"]:
                         html = html + "<h1 class=" + self.classnames + ">" \
-                                    + "<a> href=\"" + link +\
-                                    "\"</a>" + "</h1>" + "\n"
+                               + "<a href=\"" + link + "\">" + link + "</a>" + "</h1>" + "\n"
                     elif headers["headers2"]:
                         html = html + "<h2 class=" + self.classnames + ">"\
-                                    + "<a> href=\"" + link + "\"</a>" +\
-                                    "</h2>" + "\n"
+                                    + "<a href=\"" + link + "\">" + link + "</a>" + "</h2>" + "\n"
                     elif headers["headers3"]:
                         html = html + "<h3 class=" + self.classnames + ">"\
-                                    + "<a> href=\"" + link + "\"</a>" +\
-                                    "</h3>" + "\n"
+                                    + "<a href=\"" + link + "\">" + link + "</a>" + "</h3>" + "\n"
                     elif headers["headers4"]:
                         html = html + "<h4 class=" + self.classnames + ">"\
-                               + "<a> href=\"" + link + "\"</a>" +\
-                               "</h4>" + "\n"
+                               + "<a href=\"" + link + "\">" + link + "</a>" + "</h4>" + "\n"
                     else:
                         html = html + "<p class=" + self.classnames + ">"\
-                               + "<a> href=\"" + link + "\"</a>" +\
-                               "</p>" + "\n"
+                               + "<a href=\"" + link + "\">" + link + "</a>" + "</p>" + "\n"
             # The user does not know what they are doing.
             else:
                 print("How did we get here?")

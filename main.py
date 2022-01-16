@@ -4,11 +4,11 @@
 # ***************************************************************************************\
 """
 import threading
+import sys
 from queue import Queue
 from spider import Spider
 from domain import get_domain_name
 from general import file_to_set
-import sys
 
 
 class SpiderMain:
@@ -37,9 +37,9 @@ class SpiderMain:
     def create_threads(self):
         try:
             for _ in range(self.threads):
-                self.t = threading.Thread(target=self.work)
-                self.t.daemon = True
-                self.t.start()
+                self.thread = threading.Thread(target=self.work)
+                self.thread.daemon = True
+                self.thread.start()
         except RuntimeError:
             sys.exit()
 
@@ -51,8 +51,8 @@ class SpiderMain:
                 Spider.crawl_page(threading.current_thread().name, url)
                 self.queue.task_done()
                 self.limit_count += 1
-            except Exception as e:
-                print(e)
+            except Exception as error:
+                print(error)
                 sys.exit()
 
     # Warns the user

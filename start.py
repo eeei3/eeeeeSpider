@@ -292,7 +292,7 @@ Crawler has finished!
         # User wishes to change HTML settings
         elif setting_to_change == "4":
             print("What config do you want to change?")
-            temp = input("1. Headers\n2.Link or text\n3.Give text a class?\n")
+            temp = input("1. Headers\n2. Link or text\n3. Give text a class?\n")
             # Changing the headers
             if temp == "1":
                 print("Current configs:\n",
@@ -301,7 +301,7 @@ Crawler has finished!
                       "h3 ", self.configs["headers"]["headers3"], "\n",
                       "h4 ", self.configs["headers"]["headers4"], "\n")
                 temp1 = input("""Which header do you want to change?
-                              1\t2\t3\t4\n""")
+                              1    2    3   4\n""")
                 if temp1 == "1":
                     self.configs["headers"]["headers1"] = \
                         bool((~self.configs["headers"]["headers1"]) + 2)
@@ -342,7 +342,7 @@ Crawler has finished!
                 print("Current class name: ", self.configs["classnames"])
                 self.configs["classnames"] = \
                     input("Enter your desired class name." +
-                          "Leave blank if you don't want any")
+                          "Leave blank if you don't want any\n")
             else:
                 print("I did not understand that.")
                 self.settings()

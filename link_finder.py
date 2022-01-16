@@ -16,8 +16,8 @@ class LinkFinder(HTMLParser):
         self.page_url = page_url
         self.links = set()
 
+    # Function for finding links
     def handle_starttag(self, tag, attrs):
-        # Function for finding links
         try:
             if tag == 'a':
                 for (attribute, value) in attrs:
@@ -26,12 +26,14 @@ class LinkFinder(HTMLParser):
                         url = parse.urljoin(self.base_url, value)
                         # Adding the url to the set
                         self.links.add(url)
-                        
-        except Exception as e:
-            print(e)
 
+        except Exception as error:
+            print(error)
+
+    # Returns the set
     def page_links(self):
         return self.links
 
+    # Errors
     def error(self, message):
         pass
