@@ -1,3 +1,4 @@
+# pylint: disable=C0116
 """
 # /***************************************************************************************
 #  This module is the crawler. Most functions though are located on spider.py
@@ -66,8 +67,8 @@ class SpiderMain:
             print("Resuming...")
             return 0
         else:
-            print("Bad input")
-            SpiderMain.warning_activated()
+            print("Bad input. Stopping...")
+            return 1
 
     # Add links to queue and prepare them for crawling
     def create_jobs(self):
