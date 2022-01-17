@@ -1,7 +1,6 @@
 # eeeeeSpider
 This is my CS 20 final assesment. 
 
-![py_lint(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/pylint.yml/badge.svg)
 ![codeql-analysis(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/codeql-analysis.yml/badge.svg)
 
 REQUIRMENTS:
