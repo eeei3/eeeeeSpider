@@ -185,14 +185,14 @@ class Main:
         print("V to view, E to export and Q to quit")
         choice = input("")
         choice = choice.lower()
-        if choice == "view" or choice == "v":
+        if choice == "v":
             print("viewing")
             with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
                 url_list = file.read()
                 url_list = url_list.split("\n")
             Main.create_viewing_gui(url_list)
 
-        elif choice == "export" or choice == "e":
+        elif choice == "e":
             with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
                 url_list = file.read()
                 url_list = url_list.split("\n")
@@ -204,7 +204,7 @@ class Main:
             elif choice.lower() == "html":
                 export_to_html(url_list)
 
-        elif choice == "quit" or choice == "q":
+        elif choice == "q":
             return
 
         else:
@@ -237,20 +237,19 @@ class Main:
         choice = input("")
         choice = choice.lower()
         # Starting the crawler
-        if choice == "1" or "start":
+        if choice in "start1":
             self.start()
             self.finish()
         # Changing settings
-        elif choice == "2" or "settings":
+        elif choice in "settings2":
             self.settings()
         # Exit
-        elif choice == "3" or "exit":
+        elif choice in "exit3":
             sys.exit()
-
-        elif choice == "4" or "help":
-            print("Help is on the way!")
         else:
-            pass
+            print("Bad choice. Restarting")
+            self.clear_screen()
+            self.main()
 
     # /***************************************************************************************
     #  Function that gives the user options to change the program settings
