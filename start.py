@@ -1,4 +1,5 @@
 # pylint: disable=C0116
+# pylint: disable=W0105
 """
 # /***************************************************************************************
 #  This is the main part of this application. This is the code to run to start the program.
