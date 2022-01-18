@@ -1,5 +1,7 @@
 #! /usr/local/bin/python3
 
+# pylint: disable=C0116
+
 """
 # /***************************************************************************************
 #  This module is responsible for generating an HTML file from the given links.
