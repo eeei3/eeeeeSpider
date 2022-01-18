@@ -1,5 +1,8 @@
 #! /usr/local/bin/python3
 
+# pylint: disable=C0116
+
+
 """
 # /***************************************************************************************
 #  This module is responsible for performing many of the crawler functions.
