@@ -8,6 +8,11 @@ from general import write_file
 
 
 class BadConfig(Exception):
+    """
+    /***************************************************************************************
+    Exception for when the user has a invalid configuration
+    ***************************************************************************************\
+    """
     pass
 
 

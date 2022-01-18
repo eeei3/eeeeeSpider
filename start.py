@@ -23,11 +23,12 @@ class Main:
     Main function of the program. Houses all functions.
     ***************************************************************************************\
     """
-    def __init__(self, directory):
+    def __init__(self, directory, cdirectory="configs"):
         self.directory = directory
+        self.cdirectory = cdirectory
         self.queue = os.path.join(directory, "queue.txt")
         self.crawled = os.path.join(directory, "crawled.txt")
-        self.settingsdir = os.path.join(directory, "configs.json")
+        self.settingsdir = os.path.join(cdirectory, "configs.json")
         self.configs = {
             "threads": 8,
             "outside_sites": False,
@@ -43,15 +44,33 @@ class Main:
                 "headers4": False
             }
         }
+        
+        if not os.path.exists(cdirectory):
+            # Making sure the configs directory exists
+            os.mkdir(cdirectory)
+            with open(self.settingsdir, 'x', encoding='utf8') as file:
+                file.write(json.dumps(self.configs))
+                file.close()
+                
+        else:
+            # Making sure the configs file is present and attempt to load the data
+            try:
+                with open(self.settingsdir, 'r', encoding='utf8') as file:
+                    self.configs = json.loads(file.read())
+            except FileNotFoundError:
+                print("""Panic! Configs folder not found!
+                         Loading in default values.""")
+                with open(self.settingsdir, 'w', encoding='utf8') as file:
+                    file.write(self.configs)
+
         if not os.path.exists(directory):
+            # Making sure the results directory exists
             os.mkdir(directory)
             with open(self.queue, 'x', encoding='utf8') as file:
                 file.close()
             with open(self.crawled, 'x', encoding='utf8') as file:
                 file.close()
-            with open(self.settingsdir, 'x', encoding='utf8') as file:
-                file.write(json.dumps(self.configs))
-                file.close()
+
         else:
             # Making sure the crawled file is present and now empty
             with open(self.crawled, 'w', encoding='utf8') as file:
@@ -63,15 +82,6 @@ class Main:
                     file.close()
             except FileExistsError:
                 pass
-            # Making sure the configs file is present
-            try:
-                with open(self.settingsdir, 'r', encoding='utf8') as file:
-                    self.configs = json.loads(file.read())
-            except FileNotFoundError:
-                print("""Panic! Configs folder not found!
-                         Loading in default values.""")
-                with open(self.settingsdir, 'w', encoding='utf8') as file:
-                    file.write(self.configs)
             # Removing superfluous data
             try:
                 os.remove(directory + "/crawled.csv")
@@ -89,12 +99,10 @@ class Main:
     """
     @staticmethod
     def clear_screen():
-        if sys.platform == "linux":
-            _ = system('clear')
-        elif sys.platform == "win32":
+        try:
             _ = system('cls')
-        else:
-            print("Unsupported platform!")
+        except Exception as error:
+            pass
 
     """
     /***************************************************************************************
@@ -318,18 +326,22 @@ class Main:
                     self.configs["headers"]["headers1"] = \
                         bool((~self.configs["headers"]["headers1"]) + 2)
                     print("Config changed")
+                    self.settings()
                 elif temp1 == "2":
                     self.configs["headers"]["headers2"] = \
                         bool((~self.configs["headers"]["headers2"]) + 2)
                     print("Config changed")
+                    self.settings()
                 elif temp1 == "3":
                     self.configs["headers"]["headers3"] = \
                         bool((~self.configs["headers"]["headers3"]) + 2)
                     print("Config changed")
+                    self.settings()
                 elif temp1 == "4":
                     self.configs["headers"]["headers4"] = \
                         bool((~self.configs["headers"]["headers4"]) + 2)
                     print("Config changed")
+                    self.settings()
                 else:
                     print("I did not understand that.")
                     self.settings()
