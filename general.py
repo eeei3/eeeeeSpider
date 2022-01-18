@@ -1,5 +1,7 @@
 #! /usr/local/bin/python3
 
+# pylint: disable=C0116
+
 """
 # /***************************************************************************************
 #  Module that is responsible for universal file i/o
