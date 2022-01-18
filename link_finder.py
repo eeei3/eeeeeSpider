@@ -1,5 +1,7 @@
 #! /usr/local/bin/python3
 
+# pylint: disable=C0116
+
 """
 # /***************************************************************************************
 #  This module is responsible for turning snippits of HTML into actual links.
