@@ -237,7 +237,7 @@ class Main:
     """
     def main(self):
         print("Please input your choice.\nChoices\n-------------------")
-        print("1.Start crawling\n2.Change Settings\n3.Exit\n4.Help")
+        print("1.Start crawling\n2.Change Settings\n3.Exit")
         choice = input("")
         choice = choice.lower()
         # Starting the crawler
@@ -250,9 +250,6 @@ class Main:
         # Exit
         elif choice == "3" or "exit":
             sys.exit()
-
-        elif choice == "4" or "help":
-            print("Help is on the way!")
         else:
             pass
 
