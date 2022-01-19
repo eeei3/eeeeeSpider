@@ -3,12 +3,29 @@ This is my CS 20 final assesment.
 
 ![codeql-analysis(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/codeql-analysis.yml/badge.svg)
 
+Table of Contensts:
+--------------------------------------------------------------------------
+1. REQUIRMENTS
+2. FAQ
+3. How to use
+4. Options Explanations
+5. Troubleshooting
+
+
 REQUIRMENTS:
 - Python 3.10
 
+FAQ:
+
+Q: What do I download? The binary or the source code?
+A: You probably want to download the binary. But if you intent to modify the program yourself, get the source code.
+
+Q: I have a problem!
+A: First check the troubleshooting section. Second, check your configs folder. Third depends on which version you downloaded. Did you download the binary? Let me know. Did you download the source code? Check your code. Fourth, make sure all of your configs are in order.
+
 How to use:
-1. Open program
-2. Run to your hearts content! There are no external dependancies that you will have to manually install
+1. Extract the project.
+2. Run start.exe. There are no external dependancies that you will have to manually install. To make a no-gui version, simply delete start.py and modify main.py.
 
 Options explanations:                                                                                                                                                            
 [Main Crawler Features]--------------------------------------------------
