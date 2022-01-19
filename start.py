@@ -24,11 +24,17 @@ class Main:
     ***************************************************************************************\
     """
     def __init__(self, directory, cdirectory="configs"):
+        # The location of the results folder
         self.directory = directory
+        # The directory of the configs folder
         self.cdirectory = cdirectory
+        # The location of the queue file
         self.queue = os.path.join(directory, "queue.txt")
+        # The location of the crawled file
         self.crawled = os.path.join(directory, "crawled.txt")
+        # The location of the configs file
         self.settingsdir = os.path.join(cdirectory, "configs.json")
+        # The settings the crawler abides by
         self.configs = {
             "threads": 8,
             "outside_sites": False,
@@ -44,14 +50,14 @@ class Main:
                 "headers4": False
             }
         }
-        
+
         if not os.path.exists(cdirectory):
             # Making sure the configs directory exists
             os.mkdir(cdirectory)
             with open(self.settingsdir, 'x', encoding='utf8') as file:
                 file.write(json.dumps(self.configs))
                 file.close()
-                
+
         else:
             # Making sure the configs file is present and attempt to load the data
             try:
@@ -100,6 +106,7 @@ class Main:
     @staticmethod
     def clear_screen():
         try:
+            # Command to clear the window
             _ = system('cls')
         except Exception as error:
             pass
@@ -112,16 +119,19 @@ class Main:
     """
     @staticmethod
     def create_viewing_gui(links):
+        # Variable that holds the height of the window
         y_height = 0
         # Setting an appropriate height
         for _ in links:
             y_height = y_height + 1
         # Creating root window
+        # Object holding the main window
         root = Tk()
         # Creating the scrollbar
+        # Object holding the scrollbar
         vertical = Scrollbar(root, orient='vertical')
         vertical.pack(side=RIGHT, fill=Y)
-
+        # Object holding the text widget
         text = Text(root, width=15, height=y_height, wrap=NONE,
                     yscrollcommand=vertical.set)
 
@@ -129,6 +139,7 @@ class Main:
 
         vertical.config(command=text.yview)
         # Populating text widget
+        # links is the variable passed to the function
         for link in links:
             text.insert(END, link + "\n")
 
@@ -151,8 +162,11 @@ class Main:
             with open(self.directory + '/crawled.csv', 'x',
                       newline='', encoding='utf8') as csvfile:
                 with open(self.directory + "/crawled.txt", "r") as result_file:
+                    # String containing each url
                     craweld_url_list = result_file.read()
+                    # List containing each url
                     craweld_url_list = craweld_url_list.split("\n")
+                    # Object holding the csv.writer function
                     csvwriter = csv.writer(csvfile, delimiter=' ',
                                            quotechar='|',
                                            quoting=csv.QUOTE_MINIMAL)
@@ -166,6 +180,7 @@ class Main:
         ***************************************************************************************\
         """
         def export_to_html(url_list):
+            # The object holding the HTMLCreator module
             html_obj = HTMLCreator(url_list, self.directory + "/results.html",
                                self.configs["linkortext"],
                                self.configs["classnames"])
@@ -176,6 +191,7 @@ class Main:
         # Checking if the user wanted to compress their file or not
         # and then using the deflated algorithm to compress it
         if self.configs["compress"]:
+            # The object holding the zipfile.ZipFile function
             compressedfile = zipfile.ZipFile(self.directory +
                                              '/crawled.zip', 'w',
                                              zipfile.ZIP_DEFLATED)
@@ -193,12 +209,15 @@ class Main:
               export the file to a CSV format""")
         print("or exit the program right now")
         print("V to view, E to export and Q to quit")
+        # The user's choice of action
         choice = input("")
         choice = choice.lower()
         if choice == "v":
             print("viewing")
             with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
+                # String holding the URLs
                 url_list = file.read()
+                # List holding the URLs
                 url_list = url_list.split("\n")
             Main.create_viewing_gui(url_list)
 
@@ -208,6 +227,7 @@ class Main:
                 url_list = url_list.split("\n")
             print("Export to CSV or to HTML?")
             print("Exports are wiped on start of program! Remember to backup!")
+            # The user's choice of action
             choice = input("")
             if choice.lower() == "csv":
                 export_to_csv()
@@ -219,6 +239,7 @@ class Main:
 
         else:
             print("Invalid answer")
+            main.finish()
 
     """
     /***************************************************************************************
@@ -226,7 +247,9 @@ class Main:
     ***************************************************************************************\
     """
     def start(self):
+        # The URL that the user wants to crawl
         url = input("Url to crawl:\n")
+        # The object holding the SpiderMain class
         spidermain = SpiderMain(
             self.directory, url,
             self.configs["threads"],
@@ -244,6 +267,7 @@ class Main:
     def main(self):
         print("Please input your choice.\nChoices\n-------------------")
         print("1.Start crawling\n2.Change Settings\n3.Exit\n")
+        # The user's choice of action
         choice = input("")
         choice = choice.lower()
         # Starting the crawler
@@ -260,33 +284,38 @@ class Main:
             print("Bad choice. Restarting")
             self.clear_screen()
             self.main()
-
-    # /***************************************************************************************
-    #  Function that gives the user options to change the program settings
-    # ***************************************************************************************\
+    """
+    /***************************************************************************************
+    Function that gives the user options to change the program settings
+    ***************************************************************************************\
+    """
     def settings(self):
         main.clear_screen()
         print("Which element do you want to change?\n1.Threads")
         print("2.Crawl outside sides\n3.Max amount to crawl")
-        print("\n4.HTML configs\n5.Storage Warnings\n6.Compression")
+        print("4.HTML configs\n5.Storage Warnings\n6.Compression")
         print("7.Regenerate config file\n8.Nothing and return")
+        # The setting the user wishes to change
         setting_to_change = input("Type in the number\n")
         # Changing number of threads used
         if setting_to_change == "1":
             print("How many threads do you want?")
             print("Current amount of threads: " + str(self.configs["threads"]))
             try:
+                # The amound of threads allocated for the crawler
                 self.configs["threads"] = int(input(""))
             except ValueError:
                 print("Bad value detected!")
                 self.settings()
         # Changing if the user wants to crawl outside sites
         elif setting_to_change == "2":
-            print("Do you want the spider to crawl external sides?")
+            print("Do you want the spider to crawl external sites?")
             print("Enter 'yes' or 'no'")
+            # Does the user want external sites crawled?
             temp = input("")
             temp = temp.lower()
             if temp == "yes":
+                # Whether the crawler will crawl external sites
                 self.configs["outside_sites"] = True
             elif temp == "no":
                 self.configs["outside_sites"] = False
@@ -297,12 +326,16 @@ class Main:
         elif setting_to_change == "3":
             print("Do you want a limit to the amount of pages crawled?")
             print("Enter 'yes' or 'no'\n")
+            # Does the user want a limit on sites crawled?
             temp = input("")
             temp = temp.lower()
             if temp == "yes":
+                # The users choice on a limit
                 self.configs["max_links"][0] = True
                 print("What do you want the limit to be?\n")
+                # What should the limit be?
                 temp = int(input(""))
+                # The limit the user defined
                 self.configs["max_links"][1] = temp
             elif temp == "no":
                 self.configs["max_links"][0] = False
@@ -312,6 +345,7 @@ class Main:
         # User wishes to change HTML settings
         elif setting_to_change == "4":
             print("What config do you want to change?")
+            # The config the user wants to change
             temp = input("1. Headers\n2. Link or text\n3. Give text a class?\n")
             # Changing the headers
             if temp == "1":
@@ -320,24 +354,29 @@ class Main:
                       "h2 ", self.configs["headers"]["headers2"], "\n",
                       "h3 ", self.configs["headers"]["headers3"], "\n",
                       "h4 ", self.configs["headers"]["headers4"], "\n")
+                # Which header option does the user want to change?
                 temp1 = input("""Which header do you want to change?
                               1    2    3   4\n""")
                 if temp1 == "1":
+                    # The state of the first header
                     self.configs["headers"]["headers1"] = \
                         bool((~self.configs["headers"]["headers1"]) + 2)
                     print("Config changed")
                     self.settings()
                 elif temp1 == "2":
+                    # The state of the second header
                     self.configs["headers"]["headers2"] = \
                         bool((~self.configs["headers"]["headers2"]) + 2)
                     print("Config changed")
                     self.settings()
                 elif temp1 == "3":
+                    # The state of the third header
                     self.configs["headers"]["headers3"] = \
                         bool((~self.configs["headers"]["headers3"]) + 2)
                     print("Config changed")
                     self.settings()
                 elif temp1 == "4":
+                    # The state of the fourth header
                     self.configs["headers"]["headers4"] = \
                         bool((~self.configs["headers"]["headers4"]) + 2)
                     print("Config changed")
@@ -351,10 +390,12 @@ class Main:
                 print("""Enter 'link' or 'text'.
                       Enter e to not change anything.""")
                 print("Current config: ", self.configs["linkortext"])
+                # Does the user want links or text?
                 temp1 = input()
                 if temp1.lower() == "e":
                     print("No changes made")
                 elif temp1.lower() == "link":
+                    # The user's choice of either link or text
                     self.configs["linkortext"] = "link"
                 elif temp1.lower() == "text":
                     self.configs["linkortext"] = "text"
@@ -364,6 +405,7 @@ class Main:
             # Changing class name for HTML file
             elif temp == "3":
                 print("Current class name: ", self.configs["classnames"])
+                # The classname
                 self.configs["classnames"] = \
                     input("Enter your desired class name." +
                           "Leave blank if you don't want any\n")
@@ -375,8 +417,10 @@ class Main:
             print("Would you like to receive warnings if the " +
                   "site you are crawling is very large?")
             print("Current configs: ", self.configs["warnings"])
+            # Does the user want warnings?
             temp1 = input("Please input either yes or no\n")
             if temp1.lower() == "yes":
+                # The state of warnings
                 self.configs["warnings"] = True
                 print("Setting changed")
             elif temp1.lower() == "no":
@@ -389,8 +433,10 @@ class Main:
         elif setting_to_change == "6":
             print("Do you want to compress the results file upon completion?")
             print("Current config: ", self.configs["compress"])
+            # Does the user want compression?
             temp1 = input("Enter either yes or no\n")
             if temp1.lower() == "yes":
+                # The state of compression
                 self.configs["compress"] = True
             elif temp1.lower() == "no":
                 self.configs["compress"] = False
@@ -402,8 +448,10 @@ class Main:
             print("ARE YOU SURE YOU WANT TO REGENERATE YOUR CONFIG FILE?")
             print("THIS WILL WIPE ALL EXISTING SETTINGS!")
             print("Please enter 'Confirm' exactly to confirm regeneration")
+            # Does the user wish to proceed?
             temp1 = input("")
             if temp1 == "Confirm":
+                # Vanilla configs
                 self.configs = {
                     "threads": 8,
                     "outside_sites": False,
@@ -438,5 +486,6 @@ class Main:
 
 
 # Starting the application
+# Object that holds the Main class
 main = Main("results")
 main.main()
