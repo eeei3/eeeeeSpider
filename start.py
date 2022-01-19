@@ -243,7 +243,7 @@ class Main:
     """
     def main(self):
         print("Please input your choice.\nChoices\n-------------------")
-        print("1.Start crawling\n2.Change Settings\n3.Exit\n4.Help")
+        print("1.Start crawling\n2.Change Settings\n3.Exit\n")
         choice = input("")
         choice = choice.lower()
         # Starting the crawler
