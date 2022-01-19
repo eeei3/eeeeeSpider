@@ -18,7 +18,7 @@ REQUIRMENTS:
 FAQ:
 
 Q: What do I download? The binary or the source code?
-A: You probably want to download the binary. But if you intent to modify the program yourself, get the source code.
+A: You probably want to download the binary. But if you intend to modify the program yourself, get the source code.
 
 Q: I have a problem!
 A: First check the troubleshooting section. Second, check your configs folder. Third depends on which version you downloaded. Did you download the binary? Let me know. Did you download the source code? Check your code. Fourth, make sure all of your configs are in order.
