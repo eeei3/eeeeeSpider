@@ -8,7 +8,7 @@ Table of Contensts:
 1. REQUIRMENTS
 2. FAQ
 3. How to use
-4. Options Explanations
+4. Options/Explanations
 5. Troubleshooting
 
 
