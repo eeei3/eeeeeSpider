@@ -4,11 +4,11 @@
 #  This module is responsible for performing many of the crawler functions.
 # ***************************************************************************************\
 """
+import sys
 from urllib.request import urlopen, Request
 from link_finder import LinkFinder
 from domain import get_domain_name
 from general import file_to_set, set_to_file
-import sys
 
 
 class Spider:
@@ -20,8 +20,7 @@ class Spider:
     # to be crawled?
     external = False
 
-    def __init__(self, project_name, base_url, domain_name,
-                 spiderlimits, limitnum, external, limit_counter):
+    def __init__(self, project_name, base_url, domain_name, external):
         # The name of the directory
         Spider.project_name = project_name
         # The URL that the user provided

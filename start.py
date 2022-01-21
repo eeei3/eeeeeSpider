@@ -478,7 +478,7 @@ class Main:
             print("I didn't understand that")
             self.settings()
         # Writing changes to the file
-        with open(self.settingsdir, 'w') as file:
+        with open(self.settingsdir, 'w', encoding='utf8') as file:
             file.write(json.dumps(self.configs))
             file.close()
         main.clear_screen()

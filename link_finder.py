@@ -13,8 +13,11 @@ class LinkFinder(HTMLParser):
     def __init__(self, base_url, page_url):
         # inheriting objects from spider.py
         super().__init__()
+        # The base URL that the user provided
         self.base_url = base_url
+        # The page URL passed by the
         self.page_url = page_url
+        # A set of links
         self.links = set()
 
     # Function for finding links
@@ -24,6 +27,7 @@ class LinkFinder(HTMLParser):
                 for (attribute, value) in attrs:
                     # Grabbing a potential link
                     if attribute == 'href':
+                        # The URL that was found in the element
                         url = parse.urljoin(self.base_url, value)
                         # Adding the url to the set
                         self.links.add(url)

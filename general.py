@@ -27,6 +27,7 @@ def delete_file_contents(path):
 
 # Read contents of file and return the data
 def file_to_set(file_name):
+    # Set for links retrieved from file
     results = set()
     with open(file_name, 'rt', encoding='utf8') as file:
         for line in file:

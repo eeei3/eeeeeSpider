@@ -19,24 +19,31 @@ class BadConfig(Exception):
 class HTMLCreator:
 
     def __init__(self, links, path, linkortext, classnames):
+        # The URL's to be added to the HTML
         self.links = links
+        # The string holding the HTML
         self.html = ""
+        # The location of the html file
         self.path = path
+        # Whether the user wants links or text
         self.linkortext = linkortext
+        # Class name for the elements
         self.classnames = classnames
+        # The HTML start tags
         self.htmlstarttags = """<!DOCTYPE html>
         <html>
         <head>
         <title>Page Title</title>
         </head>
         <body>\n"""
-        with open(path, "x") as htmlfile:
+        with open(path, "x", encoding='utf8') as htmlfile:
             htmlfile.close()
 
     # /***************************************************************************************
     #  Function that creates the HTML then dumps it
     # ***************************************************************************************\
     def html_generator(self, headers, classname):
+        # The HTML end tags
         htmlendtags = "</body>\n</html>"
         # /***************************************************************************************
         #  Checking if the user has provided any class names
