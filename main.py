@@ -43,7 +43,7 @@ class SpiderMain:
         # Whether the user wants warnings about storage size
         self.warnings = warnings
         # The amount that will trigger the warning
-        self.warning_trigger = 4
+        self.warning_trigger = 99
         # The program kill switch
         self.kill = False
         # Passing the spider pertinent info such as the domain name
