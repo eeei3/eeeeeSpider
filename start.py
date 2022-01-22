@@ -169,7 +169,7 @@ class Main:
         def export_to_csv():
             with open(self.directory + '/crawled.csv', 'x',
                       newline='', encoding='utf8') as csvfile:
-                with open(self.directory + "/crawled.txt", "r") as result_file:
+                with open(self.directory + "/crawled.txt", "r", encoding='utf8') as result_file:
                     # String containing each url
                     craweld_url_list = result_file.read()
                     # List containing each url
@@ -189,11 +189,12 @@ class Main:
         """
         def export_to_html(url_list):
             # The object holding the HTMLCreator module
-            html_obj = HTMLCreator(url_list, self.directory + "/results.html",
-                               self.configs["linkortext"],
-                               self.configs["classnames"])
+            html_obj = HTMLCreator(url_list,
+                                   self.directory + "/results.html",
+                                   self.configs["linkortext"],
+                                   self.configs["classnames"])
             html_obj.html_generator(self.configs["headers"],
-                                self.configs["classnames"])
+                                    self.configs["classnames"])
             return 0
 
         # Checking if the user wanted to compress their file or not

@@ -43,7 +43,9 @@ class SpiderMain:
         # Whether the user wants warnings about storage size
         self.warnings = warnings
         # The amount that will trigger the warning
-        self.warning_trigger = 99
+        self.warning_trigger = 4
+        # The program kill switch
+        self.kill = False
         # Passing the spider pertinent info such as the domain name
         Spider(folder_name, base_link, self.domain_name
                , external)
@@ -64,7 +66,8 @@ class SpiderMain:
     def work(self):
         while True:
             try:
-                # The crawler fetches an url from queue, crawls it, marks it as done then adds it to the limit counter
+                # The crawler fetches an url from queue, crawls it,
+                # marks it as done then adds it to the limit counter
                 # An url fetched from the queue
                 url = self.queue.get()
                 Spider.crawl_page(threading.current_thread().name, url)
@@ -77,6 +80,12 @@ class SpiderMain:
     # Warns the user
     @staticmethod
     def warning_activated():
+        print("THE CRAWLER HAS CRAWLED 100 URLs." +
+              " ARE YOU SURE YOU WISH TO CONTINUE?")
+        print("CONTINUING WILL LEAD TO LARGER FILE SIZES." +
+              " IF YOU HAVE external SITES ENABLED,")
+        print("CONSIDER TURNING ON COMPRESSING.")
+        print("Please make your choice now.\n")
         # The user's choice of what to do
         temp = input("Please enter either 'continue' or 'stop'.\n")
         # The user wants to halt operations
@@ -95,28 +104,26 @@ class SpiderMain:
     # Add links to queue and prepare them for crawling
     def create_jobs(self):
         # The program's kill switch
-        stop_signal = False
         for link in file_to_set(self.queue_file):
             # Checking if the crawler has hit the user defined limit
-            if (self.warning_trigger == self.limit_count) and self.warnings:
-                print("THE CRAWLER HAS CRAWLED 100 URLs." +
-                      " ARE YOU SURE YOU WISH TO CONTINUE?")
-                print("CONTINUING WILL LEAD TO LARGER FILE SIZES." +
-                      " IF YOU HAVE external SITES ENABLED,")
-                print("CONSIDER TURNING ON COMPRESSING.")
-                print("Please make your choice now.\n")
-                # If the user has chosen to stop the crawler
-                if SpiderMain.warning_activated() == 1:
-                    stop_signal = True
+            if self.warning_trigger == self.limit_count:
+                if self.warnings and not self.kill:
+                    # If the user has chosen to stop the crawler
+                    if SpiderMain.warning_activated() == 1:
+                        self.kill = True
+                        continue
+                    else:
+                        self.warnings = False
+                        pass
                 else:
-                    pass
+                    continue
             # Does the user want warnings and if so has the limit been reached?
             if (self.limit_count != self.maxnum) or (not self.max):
-                if not stop_signal:
-                    self.queue.put(link)
-                    self.queue.join()
-                    self.crawl()
+                self.queue.put(link)
+                self.queue.join()
+                self.crawl()
             else:
+                print("stop signal engaged")
                 pass
 
     # Function that gets queued links and calls create_jobs to prepare them

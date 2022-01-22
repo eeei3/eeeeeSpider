@@ -99,7 +99,8 @@ class Spider:
         # Saves queue data to project files
         try:
             # links here represents the list of links passed to the function
-            # Adding links that, have not been parsed already and match the original domain, to queue
+            # Adding links that, have not been parsed already and match the
+            # original domain, to queue
             for url in links:
                 if (url in Spider.queue) or (url in Spider.crawled):
                     continue
