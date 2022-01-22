@@ -123,7 +123,6 @@ class SpiderMain:
                 self.queue.join()
                 self.crawl()
             else:
-                print("stop signal engaged")
                 pass
 
     # Function that gets queued links and calls create_jobs to prepare them
