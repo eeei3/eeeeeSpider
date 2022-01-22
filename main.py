@@ -44,6 +44,7 @@ class SpiderMain:
         self.warnings = warnings
         # The amount that will trigger the warning
         self.warning_trigger = 99
+        # Passing the spider pertinent info such as the domain name
         Spider(folder_name, base_link, self.domain_name
                , external)
 
@@ -63,6 +64,7 @@ class SpiderMain:
     def work(self):
         while True:
             try:
+                # The crawler fetches an url from queue, crawls it, marks it as done then adds it to the limit counter
                 # An url fetched from the queue
                 url = self.queue.get()
                 Spider.crawl_page(threading.current_thread().name, url)
@@ -77,12 +79,15 @@ class SpiderMain:
     def warning_activated():
         # The user's choice of what to do
         temp = input("Please enter either 'continue' or 'stop'.\n")
+        # The user wants to halt operations
         if temp.lower() == "stop":
             print("Crawling exiting...")
             return 1
+        # The user wants to continue operations
         elif temp.lower() == "continue":
             print("Resuming...")
             return 0
+        # The user gave bad input (Stopping)
         else:
             print("Bad input. Stopping...")
             return 1
@@ -99,12 +104,14 @@ class SpiderMain:
                 print("CONTINUING WILL LEAD TO LARGER FILE SIZES." +
                       " IF YOU HAVE external SITES ENABLED,")
                 print("CONSIDER TURNING ON COMPRESSING.")
-                temp = input("Please make your choice now. Y/N?\n")
-                if (SpiderMain.warning_activated() == 1) and (temp.lower() == "y"):
+                print("Please make your choice now.\n")
+                # If the user has chosen to stop the crawler
+                if SpiderMain.warning_activated() == 1:
                     stop_signal = True
                 else:
                     pass
-            if ((self.limit_count != self.maxnum) or (not self.max)):
+            # Does the user want warnings and if so has the limit been reached?
+            if (self.limit_count != self.maxnum) or (not self.max):
                 if not stop_signal:
                     self.queue.put(link)
                     self.queue.join()
@@ -115,6 +122,7 @@ class SpiderMain:
     # Function that gets queued links and calls create_jobs to prepare them
     def crawl(self):
         queued_links = file_to_set(self.queue_file)
+        # If there are still URLs in queue then create jobs and notify the user
         if len(queued_links) > 0:
             print(str(len(queued_links)) + " links in the queue")
             self.create_jobs()

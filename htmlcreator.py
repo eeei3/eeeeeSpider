@@ -57,6 +57,7 @@ class HTMLCreator:
                     if link == "\n":
                         # Is the element empty? Skip it!
                         continue
+                    # How does the user want the text formatted?
                     if headers["headers1"]:
                         html = html + "<h1>" + link + "</h1>" + "\n"
                     elif headers["header2"]:
@@ -73,6 +74,7 @@ class HTMLCreator:
                     if link == "\n":
                         # Is the element empty? Skip it!
                         continue
+                    # How does the user want the text formatted?
                     if headers["headers1"]:
                         html = html + "<h1>" + "<a href=\"" +\
                                link + "\">" + link + "</a>" + "</h1>" + "\n"
@@ -104,6 +106,7 @@ class HTMLCreator:
                     # Is the element empty? Skip it!
                     if link == "\n":
                         continue
+                    # How does the user want the text formatted?
                     if headers["headers1"]:
                         html = html + "<h1 class=" + self.classnames +\
                                ">" + link + "</h1>" + "\n"
@@ -125,6 +128,7 @@ class HTMLCreator:
                     # Is the element empty? Skip it!
                     if link == "\n":
                         continue
+                    # How does the user want the text formatted?
                     if headers["headers1"]:
                         html = html + "<h1 class=" + self.classnames + ">" \
                                + "<a href=\"" + link + "\">" + link + "</a>" + "</h1>" + "\n"

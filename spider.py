@@ -55,15 +55,17 @@ class Spider:
                   ' | Crawled  ' + str(len(Spider.crawled)))
             # Checking if the user wants to crawl sites
             # not related to original domain
+            # If the user does not want external sites
             if not Spider.external:
                 # Varible that holds the links gathered
                 links = Spider.gather_links(page_url)
                 Spider.add_links_to_queue(links)
+            # If the user wants external sites
             else:
                 # Variable that holds the links gathered
                 links = Spider.gather_links(page_url)
                 Spider.add_links_to_queue_no_check(links)
-
+            # Removing link from queue, adding it to crawled and updating the files
             Spider.queue.remove(page_url)
             Spider.crawled.add(page_url)
             Spider.update_files()
@@ -96,7 +98,8 @@ class Spider:
     def add_links_to_queue(links):
         # Saves queue data to project files
         try:
-            # links here represents the lsit of links passed to the function
+            # links here represents the list of links passed to the function
+            # Adding links that, have not been parsed already and match the original domain, to queue
             for url in links:
                 if (url in Spider.queue) or (url in Spider.crawled):
                     continue
@@ -112,6 +115,7 @@ class Spider:
         # Saves queue data to project files without checking domain
         try:
             # links here represents the lsit of links passed to the function
+            # Adding links that, have not already been parsed, to queue
             for url in links:
                 if (url in Spider.queue) or (url in Spider.crawled):
                     continue

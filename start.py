@@ -36,13 +36,21 @@ class Main:
         self.settingsdir = os.path.join(cdirectory, "configs.json")
         # The settings the crawler abides by
         self.configs = {
+            # The amount of threads allotted to the crawler
             "threads": 8,
+            # If the crawler is allowed to crawl external sites
             "outside_sites": False,
+            # If the crawler has a limit imposed on the max amount of sites it can crawl
             "max_links": [False, 0],
+            # If the crawler should warn the user of large sites
             "warnings": True,
+            # If the crawler should compress the results
             "compress": False,
+            # If the HTML should be given a class name
             "classnames": "",
+            # If the HTML should be in link form or text
             "linkortext": "link",
+            # If the HTML should be in header form
             "headers": {
                 "headers1": False,
                 "headers2": False,
@@ -88,7 +96,7 @@ class Main:
                     file.close()
             except FileExistsError:
                 pass
-            # Removing superfluous data
+            # Removing superfluous data from previous runs
             try:
                 os.remove(directory + "/crawled.csv")
             except os.error:
@@ -201,9 +209,9 @@ class Main:
         main.clear_screen()
 
         print("""
-        /***************************************************************************
-        Crawler has finished!
-        ***************************************************************************\
+/***************************************************************************
+Crawler has finished!
+***************************************************************************\
         """)
         print("""You can either view the URL's in the CLI,
               export the file to a CSV format""")
@@ -212,6 +220,7 @@ class Main:
         # The user's choice of action
         choice = input("")
         choice = choice.lower()
+        # The user wishes to view the links in a GUI
         if choice == "v":
             print("viewing")
             with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
@@ -220,7 +229,7 @@ class Main:
                 # List holding the URLs
                 url_list = url_list.split("\n")
             Main.create_viewing_gui(url_list)
-
+        # The user wishes to export the results in a format of their choice
         elif choice == "e":
             with open(self.directory + "/crawled.txt", "r", encoding='utf8') as file:
                 url_list = file.read()
@@ -229,14 +238,16 @@ class Main:
             print("Exports are wiped on start of program! Remember to backup!")
             # The user's choice of action
             choice = input("")
+            # The user is exporting to csv
             if choice.lower() == "csv":
                 export_to_csv()
+            # The user is exporting to html
             elif choice.lower() == "html":
                 export_to_html(url_list)
-
+        # The user wishes to do nothing with the results
         elif choice == "q":
             return
-
+        # The user gave bad input
         else:
             print("Invalid answer")
             main.finish()
@@ -249,6 +260,7 @@ class Main:
     def start(self):
         # The URL that the user wants to crawl
         url = input("Url to crawl:\n")
+        # Passing data to the Spider module
         # The object holding the SpiderMain class
         spidermain = SpiderMain(
             self.directory, url,
@@ -257,6 +269,7 @@ class Main:
             self.configs["max_links"][0],
             self.configs["max_links"][1], 0,
             self.configs["warnings"])
+        # Starting the crawler
         spidermain.kick_start()
 
     """
@@ -265,19 +278,20 @@ class Main:
     ***************************************************************************************\
     """
     def main(self):
+        # Getting user input
         print("Please input your choice.\nChoices\n-------------------")
         print("1.Start crawling\n2.Change Settings\n3.Exit\n")
         # The user's choice of action
         choice = input("")
         choice = choice.lower()
-        # Starting the crawler
+        # User chose to start crawling
         if choice in "start1":
             self.start()
             self.finish()
-        # Changing settings
+        # User chose to configure the crawler
         elif choice in "settings2":
             self.settings()
-        # Exit
+        # User chose to quit
         elif choice in "exit3":
             sys.exit()
         else:
