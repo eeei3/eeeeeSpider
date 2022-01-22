@@ -90,7 +90,13 @@ class Spider:
             finder = LinkFinder(Spider.base_url, page_url)
             finder.feed(html_string)
         except Exception as error:
-            print(str(error))
+            if "403" in str(error):
+                print("HTTP Error 403: Forbidden")
+                print("Please make sure you have permission to crawl this site.")
+            elif "404" in str(error):
+                pass
+            else:
+                print(str(error), " gather links")
             return set()
         return finder.page_links()
 
@@ -108,7 +114,7 @@ class Spider:
                     continue
                 Spider.queue.add(url)
         except Exception as error:
-            print(str(error))
+            print(str(error), "add links")
             sys.exit()
 
     @staticmethod
@@ -122,7 +128,7 @@ class Spider:
                     continue
                 Spider.queue.add(url)
         except Exception as error:
-            print(str(error))
+            print(str(error), "add links")
             sys.exit()
 
     @staticmethod

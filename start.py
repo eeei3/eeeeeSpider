@@ -92,7 +92,7 @@ class Main:
                 file.close()
             # Making sure the queue file is present
             try:
-                with open(self.queue, 'x', encoding='utf8') as file:
+                with open(self.queue, 'w', encoding='utf8') as file:
                     file.close()
             except FileExistsError:
                 pass
@@ -470,7 +470,7 @@ Crawler has finished!
                 self.configs = {
                     "threads": 8,
                     "outside_sites": False,
-                    "max_links": [False, 0],
+                    "max_links": [False, 99],
                     "warnings": True,
                     "compress": False,
                     "classnames": "",

@@ -74,7 +74,7 @@ class SpiderMain:
                 self.queue.task_done()
                 self.limit_count += 1
             except Exception as error:
-                print(error)
+                print(str(error), " work")
                 sys.exit()
 
     # Warns the user
@@ -107,16 +107,19 @@ class SpiderMain:
         for link in file_to_set(self.queue_file):
             # Checking if the crawler has hit the user defined limit
             if self.warning_trigger == self.limit_count:
-                if self.warnings and not self.kill:
-                    # If the user has chosen to stop the crawler
-                    if SpiderMain.warning_activated() == 1:
-                        self.kill = True
-                        continue
+                if self.warnings:
+                    if not self.kill:
+                        # If the user has chosen to stop the crawler
+                        if SpiderMain.warning_activated() == 1:
+                            self.kill = True
+                            continue
+                        else:
+                            self.warnings = False
+                            pass
                     else:
-                        self.warnings = False
-                        pass
+                        continue
                 else:
-                    continue
+                    pass
             # Does the user want warnings and if so has the limit been reached?
             if (self.limit_count != self.maxnum) or (not self.max):
                 self.queue.put(link)
