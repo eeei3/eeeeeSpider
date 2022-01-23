@@ -3,7 +3,7 @@ This is my CS 20 final assesment.
 
 ![codeql-analysis(3.10)](https://github.com/eeei3/eeeeeSpider/actions/workflows/codeql-analysis.yml/badge.svg)
 
-Table of Contensts:
+Table of Contents:
 --------------------------------------------------------------------------
 1. REQUIRMENTS
 2. FAQ
@@ -13,10 +13,11 @@ Table of Contensts:
 
 
 REQUIRMENTS:
+--------------------------------------------------------------------------
 - Python 3.10
 
 FAQ:
-
+--------------------------------------------------------------------------
 Q: What do I download? The binary or the source code?
 A: You probably want to download the binary. But if you intend to modify the program yourself, get the source code.
 
@@ -24,11 +25,15 @@ Q: I have a problem!
 A: First check the troubleshooting section. Second, check your configs folder. Third depends on which version you downloaded. Did you download the binary? Let me know. Did you download the source code? Check your code. Fourth, make sure all of your configs are in order.
 
 How to use:
+--------------------------------------------------------------------------
 1. Extract the project.
 2. Run start.exe. There are no external dependancies that you will have to manually install. To make a no-gui version, simply delete start.py and modify main.py.
-
+Want to change the settings? Just type in "settings" at the prompt
+Want to start the crawler? Just type in "start" at the prompt
+Want to quit? Just type in "exit" at the prompt
 Options explanations:                                                                                                                                                            
-[Main Crawler Features]--------------------------------------------------
+[Main Crawler Features]
+--------------------------------------------------------------------------
 1. Threads [Num of threads]
 - This will be how many threads the spider will be allowed to access. It will not use any more than you have allowed.
 - The more you use, the faster it will be, but the more resource intensive. Set to 8 threads by default.
@@ -45,7 +50,8 @@ Options explanations:
 - This gives the user the option if they want the results to be compressed or not. This can be helpful, for when the crawler needs to parse a large site, to save storage space.
                                                                                                                                                                                  
 
-[HTML Features]------------------------------------------------------
+[HTML Features]
+--------------------------------------------------------------------------
 1. Classname [Name]
 - This gives the user the ability to assign the text a class for easier manipulation
 2. Linkortext [Link or Text]
@@ -56,6 +62,7 @@ Options explanations:
 
 
 TROUBLESHOOTING:
+--------------------------------------------------------------------------
 1. Why are there mysterious symbols and letters?
 - This is probably because one of the sites your crawled had some funny characters in it's link. Try changing the UTF encoding.
 2. My disk is getting filled up with your project!
