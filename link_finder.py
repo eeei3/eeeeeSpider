@@ -11,7 +11,7 @@ from urllib import parse
 class LinkFinder(HTMLParser):
 
     def __init__(self, base_url, page_url):
-        # inheriting objects from spider.py
+        # inheriting objects from HTMLParser
         super().__init__()
         # The base URL that the user provided
         self.base_url = base_url
