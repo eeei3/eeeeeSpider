@@ -28,11 +28,14 @@ How to use:
 --------------------------------------------------------------------------
 1. Extract the project.
 2. Run start.exe. There are no external dependancies that you will have to manually install. To make a no-gui version, simply delete start.py and modify main.py.
+3. 
 Want to change the settings? Just type in "settings" at the prompt
+
 Want to start the crawler? Just type in "start" at the prompt
+
 Want to quit? Just type in "exit" at the prompt
-Options explanations:                                                                                                                                                            
-[Main Crawler Features]
+                                                                                                                                                     
+[Main Crawler Configs]
 --------------------------------------------------------------------------
 1. Threads [Num of threads]
 - This will be how many threads the spider will be allowed to access. It will not use any more than you have allowed.
@@ -50,7 +53,7 @@ Options explanations:
 - This gives the user the option if they want the results to be compressed or not. This can be helpful, for when the crawler needs to parse a large site, to save storage space.
                                                                                                                                                                                  
 
-[HTML Features]
+[HTML Configs]
 --------------------------------------------------------------------------
 1. Classname [Name]
 - This gives the user the ability to assign the text a class for easier manipulation
