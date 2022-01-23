@@ -28,7 +28,7 @@ How to use:
 --------------------------------------------------------------------------
 1. Extract the project.
 2. Run start.exe. There are no external dependancies that you will have to manually install. To make a no-gui version, simply delete start.py and modify main.py.
-3. 
+ 
 Want to change the settings? Just type in "settings" at the prompt
 
 Want to start the crawler? Just type in "start" at the prompt
