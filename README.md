@@ -71,6 +71,6 @@ TROUBLESHOOTING:
 2. My disk is getting filled up with your project!
 - Try setting a limit on the amount of links crawled.
 3. How can I manipulate the src?
-- You need a basic understanding of Python. Check out the graph for how the program runs.
+- You need a basic understanding of Python. Start at start.py for the base of the program, start at main.py for the base of the spider.
 4. Why does the crawler not work properly?
 - My first suggestion is that you look into your configs. Make sure that they keep in line with their original cases.
